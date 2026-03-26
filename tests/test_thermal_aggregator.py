@@ -4,7 +4,7 @@ import unittest
 import torch
 import torch.nn as nn
 
-from sear.models.thermal_aggregator import ThermalAggregator
+from sear.models.thermal_aggregators.base import ThermalAggregatorBase
 
 
 class ModelNoneInjectable(nn.Module):
@@ -108,7 +108,7 @@ class TestFindInjectableLayers(unittest.TestCase):
         expected_result = set()
 
         pattern = re.compile(r".*")
-        result = ThermalAggregator._find_injectable_layers(
+        result = ThermalAggregatorBase._find_injectable_layers(
             pattern=pattern, module=self.model_none
         )
         result_set = set(result)
@@ -147,7 +147,7 @@ class TestFindInjectableLayers(unittest.TestCase):
             with self.subTest(i=i):
                 expected_result = set(test_cases[i]["expected_result"])
                 pattern = test_cases[i]["pattern"]
-                result = ThermalAggregator._find_injectable_layers(
+                result = ThermalAggregatorBase._find_injectable_layers(
                     pattern=pattern, module=self.model
                 )
                 result_set = set(result)
@@ -182,7 +182,7 @@ class TestFindInjectableLayers(unittest.TestCase):
         for i in range(len(test_cases)):
             with self.subTest(i=i):
                 expected_state_dict = test_cases[i]["expected_state_dict"]
-                state_dict_part = ThermalAggregator.get_state_dict_part(
+                state_dict_part = ThermalAggregatorBase.get_state_dict_part(
                     state_dict=test_cases[i]["state_dict"],
                     starts_with=test_cases[i]["starts_with"],
                 )
@@ -228,7 +228,7 @@ class TestFindInjectableLayers(unittest.TestCase):
         for i in range(len(test_cases)):
             with self.subTest(i=i):
                 expected_state_dict = test_cases[i]["expected_state_dict"]
-                state_dict_part = ThermalAggregator.get_state_dict_part(
+                state_dict_part = ThermalAggregatorBase.get_state_dict_part(
                     state_dict=test_cases[i]["state_dict"],
                     starts_with=test_cases[i]["starts_with"],
                 )
@@ -274,7 +274,7 @@ class TestFindInjectableLayers(unittest.TestCase):
 
         for i in range(len(test_cases)):
             with self.subTest(i=i):
-                state_dict_part = ThermalAggregator.get_state_dict_part(
+                state_dict_part = ThermalAggregatorBase.get_state_dict_part(
                     state_dict=test_cases[i]["state_dict"],
                     starts_with=test_cases[i]["starts_with"],
                 )

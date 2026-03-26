@@ -172,9 +172,7 @@ class ThermalAggregatorBase(nn.Module, abc.ABC):
             patch_tokens = patch_tokens["x_norm_patchtokens"]
 
         # _: B*S
-        # P: number of patches
-        # C: embedding dimention
-        _, P, C = patch_tokens.shape
+        _, num_of_patches, embedding_dimension = patch_tokens.shape
 
         # Expand camera and register tokens to match batch size and sequence length
         camera_token = slice_expand_and_flatten(self.aggregator.camera_token, B, S)
@@ -195,50 +193,68 @@ class ThermalAggregatorBase(nn.Module, abc.ABC):
             )
         # ------------------------------------------------------------------------------
 
-        pos = None
-        if self.aggregator.rope is not None:
-            pos = self.aggregator.position_getter(
+        position = None
+        if self.aggregator.position_getter is not None:
+            position = self.aggregator.position_getter(
                 B * S,
                 H // self.aggregator.patch_size,
                 W // self.aggregator.patch_size,
                 device=images.device,
             )
 
-        if self.aggregator.patch_start_idx > 0:
+        if self.aggregator.patch_start_idx > 0 and position is not None:
             # do not use position embedding for special tokens (camera and register
             # tokens) so set pos to 0 for the special tokens
-            pos = pos + 1
+            position = position + 1
             pos_special = (
                 torch.zeros(B * S, self.aggregator.patch_start_idx, 2)
                 .to(images.device)
-                .to(pos.dtype)
+                .to(position.dtype)
             )
-            pos = torch.cat([pos_special, pos], dim=1)
+            position = torch.cat([pos_special, position], dim=1)
 
-        # update P because we added special tokens
-        _, P, C = tokens.shape
+        # update num_of_patches because we added special tokens
+        _, num_of_patches, embedding_dimension = tokens.shape
 
         frame_idx = 0
         global_idx = 0
-        output_list = []
+        output_list: list[torch.Tensor] = []
+
+        concat_inter: torch.Tensor | None = None
+        frame_intermediates: list[torch.Tensor] | None = None
+        global_intermediates: list[torch.Tensor] | None = None
 
         for _ in range(self.aggregator.aa_block_num):
             for attn_type in self.aggregator.aa_order:
                 if attn_type == "frame":
                     tokens, frame_idx, frame_intermediates = (
                         self.aggregator._process_frame_attention(
-                            tokens, B, S, P, C, frame_idx, pos=pos
+                            tokens,
+                            B,
+                            S,
+                            num_of_patches,
+                            embedding_dimension,
+                            frame_idx,
+                            pos=position,
                         )
                     )
                 elif attn_type == "global":
                     tokens, global_idx, global_intermediates = (
                         self.aggregator._process_global_attention(
-                            tokens, B, S, P, C, global_idx, pos=pos
+                            tokens,
+                            B,
+                            S,
+                            num_of_patches,
+                            embedding_dimension,
+                            global_idx,
+                            pos=position,
                         )
                     )
                 else:
                     raise ValueError(f"Unknown attention type: {attn_type}")
 
+            assert frame_intermediates is not None
+            assert global_intermediates is not None
             for i in range(len(frame_intermediates)):
                 # concat frame and global intermediates, [B x S x P x 2C]
                 concat_inter = torch.cat(

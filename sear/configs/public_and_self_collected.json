@@ -1,0 +1,30 @@
+{
+    "PublicDatasets": [
+        "Parterre",
+        "IronIngot",
+        "Ebike",
+        "sink",
+        "generator",
+        "reflect-robot",
+        "freezing_ice_cup",
+        "prpt-cup",
+        "melting_ice_cup",
+        "INR-building",
+        "panel",
+        "laptop",
+        "01_Annexet_No_Radars_0",
+        "01_Annexet_No_Radars_1",
+        "01_Annexet_No_Radars_2",
+        "01_Annexet_No_Radars_3",
+        "04_Forest_pass_no_radars_0",
+        "04_Forest_pass_no_radars_1"
+    ],
+    "DifficultScenes": [
+        "conference-room",
+        "metallic-container",
+        "old-drinking-fountain",
+        "parking",
+        "statue",
+        "telescope"
+    ]
+}

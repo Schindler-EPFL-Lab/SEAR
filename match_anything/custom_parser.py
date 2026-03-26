@@ -1,0 +1,168 @@
+import argparse
+
+from deep_image_matching.config import Config
+
+
+def custom_parser() -> argparse.ArgumentParser:
+    """
+    Creates a parser to run a pipeline for deep-image-matching method. The arguments
+    will be parsed later by user.
+
+    The code is mostly copied from deep-image-matching/parser/parse_cli.py
+
+    :return: argument parser to run deep-image-matching pipeline
+    """
+
+    parser = argparse.ArgumentParser(
+        description="Matching with hand-crafted and deep-learning based local features "
+        "and image retrieval."
+    )
+    parser.add_argument(
+        "--gui", action="store_true", help="Run GUI interface", default=False
+    )
+    parser.add_argument(
+        "-d",
+        "--dir",
+        type=str,
+        help="Project directoryt, containing a folder 'images', in which all the images"
+        + " are present and where the results will be saved.",
+        default=None,
+    )
+    parser.add_argument(
+        "-i",
+        "--images",
+        type=str,
+        help="Folder containing images to process. If not specified, an 'images' folder"
+        + " inside the project folder is assumed.",
+        default=None,
+    )
+    parser.add_argument(
+        "-o",
+        "--outs",
+        type=str,
+        help="Output folder. If None, the output folder will be created inside the "
+        + "project folder.",
+        default=None,
+    )
+    parser.add_argument(
+        "-p",
+        "--pipeline",
+        type=str,
+        help="Define the pipeline (combination of local feature extractor and matcher)"
+        + " to use for the matching.",
+        choices=Config.get_pipelines(),
+        required=True,
+    )
+    parser.add_argument(
+        "-c",
+        "--config_file",
+        type=str,
+        help="Path of a YAML configuration file that contains user-defined options. "
+        + "If not specified, the default configuration for the selected matching "
+        + "configuration is used.",
+        default=None,
+    )
+    parser.add_argument(
+        "-q",
+        "--quality",
+        type=str,
+        choices=["lowest", "low", "medium", "high", "highest"],
+        default="high",
+        help="Set the image resolution for the matching. High means full resolution "
+        + "images, medium is half res, low is 1/4 res, highest is x2 upsampling. "
+        + "Default is high.",
+    )
+    parser.add_argument(
+        "-t",
+        "--tiling",
+        type=str,
+        choices=["none", "preselection", "grid", "exhaustive"],
+        default="none",
+        help="Set the tiling strategy for the matching. Default is none.",
+    )
+    parser.add_argument(
+        "-s",
+        "--strategy",
+        choices=[
+            "matching_lowres",
+            "bruteforce",
+            "sequential",
+            "retrieval",
+            "custom_pairs",
+            "covisibility",
+        ],
+        default="matching_lowres",
+        help="Matching strategy",
+    )
+    parser.add_argument(
+        "--pair_file", type=str, default=None, help="Specify pairs for matching"
+    )
+    parser.add_argument(
+        "--overlap",
+        type=int,
+        help="Image overlap, if using sequential overlap strategy",
+        default=1,
+    )
+    parser.add_argument(
+        "--global_feature",
+        choices=Config.get_retrieval_names(),
+        default="netvlad",
+        help="Specify image retrieval method",
+    )
+    parser.add_argument(
+        "--db_path",
+        type=str,
+        default=None,
+        help="Path to the COLMAP database to be use for covisibility pair selection.",
+    )
+    parser.add_argument(
+        "--upright",
+        choices=Config.get_upright_options(),
+        default=None,
+        help="Enable the estimation of the best image rotation for the matching.",
+    )
+    parser.add_argument(
+        "--skip_reconstruction",
+        action="store_true",
+        help="Skip reconstruction step carried out with pycolmap. This step is "
+        + "necessary to export the solution in Bundler format for Agisoft Metashape.",
+        default=False,
+    )
+    parser.add_argument(
+        "-f",
+        "--force",
+        action="store_true",
+        default=False,
+        help="Force overwrite of output folder",
+    )
+    parser.add_argument(
+        "-V",
+        "--verbose",
+        action="store_true",
+        default=False,
+    )
+    parser.add_argument(
+        "-g",
+        "--graph",
+        action="store_true",
+        default=False,
+        help="Show view graph of matches (currently supported for small networks).",
+    )
+    parser.add_argument(
+        "--openmvg",
+        help="Path to openmvg config file'",
+        default=None,
+    )
+    parser.add_argument(
+        "--camera_options",
+        help="Path to camera options yaml file, e.g. config/cameras.yaml",
+        default="./config/cameras.yaml",
+    )
+    parser.add_argument(
+        "--checkpoint_path",
+        type=str,
+        default="",
+        help="Adds checkpoint necessary for MINIMA-RoMA matching.",
+    )
+
+    return parser

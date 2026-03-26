@@ -1,0 +1,74 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "sear"
+version = "0.1.0"
+description = "Estimate poses of rgb and thermal cameras"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "vggt",
+    "peft>=0.17.1",
+    "lightning>=2.5.0",
+    "iopath>=0.1.10",
+    "torchvision>=0.23.0",
+    "open3d>=0.19.0",
+    "dataclasses-reverse-cli>=0.0.7",
+    "nerfstudio>=0.3.4",
+]
+
+[tool.uv.sources]
+vggt = { path = "./vggt" }
+
+[tool.hatch.build.targets.wheel]
+packages = ["sear", "vggt/training"]
+
+# RUFF
+[tool.ruff]
+line-length = 88
+indent-width = 4
+extend-exclude = ["*.ipynb", "thermalnerf/", "vggt/"]
+
+[tool.ruff.lint]
+# Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
+# Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
+# McCabe complexity (`C901`) by default.
+select = ["E", "F"]
+ignore = ["F722", "F821"]
+
+# Allow fix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff.format]
+# Like Black, use double quotes for strings.
+quote-style = "double"
+# Like Black, indent with spaces, rather than tabs.
+indent-style = "space"
+# Like Black, respect magic trailing commas.
+skip-magic-trailing-comma = false
+# Like Black, automatically detect the appropriate line ending.
+line-ending = "auto"
+# Enable auto-formatting of code examples in docstrings. Markdown,
+# reStructuredText code/literal blocks and doctests are all supported.
+#
+# This is currently disabled by default, but it is planned for this
+# to be opt-out in the future.
+docstring-code-format = true
+# Set the line length limit used when formatting code snippets in
+# docstrings.
+#
+# This only has an effect when the `docstring-code-format` setting is
+# enabled.
+docstring-code-line-length = "dynamic"
+
+[tool.ruff.lint.isort]
+known-third-party = ["vggt"]
+
+[tool.basedpyright]
+reportAny = false
+reportExplicitAny = false
+reportMissingTypeStubs = false
+reportUnannotatedClassAttribute = false

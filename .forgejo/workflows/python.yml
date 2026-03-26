@@ -1,0 +1,49 @@
+name: Python application
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [labeled]
+
+jobs:
+  build:
+    name: Python Build
+    if: github.event_name == 'workflow_dispatch' || github.event.label.name == 'trigger_pipeline'
+    runs-on: ubuntu-24.04
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: https://code.forgejo.org/actions/setup-node@v6
+        with:
+          node-version: 22
+
+      - name: Install uv
+        uses: https://github.com/astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          prune-cache: false
+          cache-dependency-glob: "uv.lock"
+          github-token: ${{ secrets.GITHUBAUTH }}
+
+      - name: RUFF
+        run: uvx ruff check
+
+      - name: clone SchindlerEPFL/thermo-nerf
+        run: git clone --depth=1  https://github.com/Schindler-EPFL-Lab/thermo-nerf.git
+
+      - name: "Set up Python"
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: ".python-version"
+
+      - name: Install the project
+        run: |
+          git clone https://github.com/facebookresearch/vggt.git && \
+          uv sync --frozen
+
+      - name: Run sear tests
+        run: |
+          uv run --frozen python -m unittest discover tests

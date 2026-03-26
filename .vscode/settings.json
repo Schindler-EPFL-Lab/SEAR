@@ -1,0 +1,39 @@
+{
+    "python.testing.unittestArgs": [
+        "-v",
+        "-s",
+        "./tests",
+        "-p",
+        "*test*.py"
+    ],
+    "python.testing.pytestEnabled": false,
+    "python.testing.unittestEnabled": true,
+    "[python]": {
+        "editor.codeActionsOnSave": {
+            "source.fixAll": "explicit",
+            "source.organizeImports": "explicit"
+        },
+        "editor.defaultFormatter": "charliermarsh.ruff",
+        "editor.rulers": [
+            88
+        ],
+    },
+    "python.analysis.typeCheckingMode": "basic",
+    "python.analysis.diagnosticSeverityOverrides": {
+        "reportUndefinedVariable": "warning"
+    },
+    "editor.formatOnSave": true,
+    "python.analysis.diagnosticMode": "openFilesOnly",
+    "errorLens.enabledDiagnosticLevels": [
+        "error",
+        "warning",
+        "info",
+        "hint"
+    ],
+    "git.inputValidation": true,
+    "python.analysis.extraPaths": [
+        "./vggt/",
+        "./mast3r/",
+        "./mast3r/dust3r/"
+    ]
+}

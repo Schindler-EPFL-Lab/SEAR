@@ -1,0 +1,57 @@
+{
+  "/tf_static": {
+    "path": "/path/to/store/extracted/data",
+    "subfolder": "%name",
+    "naming": "%name",
+    "format": "text/json@single_file"
+  },
+  "/tf": {
+    "path": "/path/to/store/extracted/data",
+    "subfolder": "%name",
+    "naming": "%name",
+    "format": "text/json@single_file"
+  },
+  "/ueye/ids_camera/image_raw/compressed": {
+    "path": "/path/to/store/extracted/data",
+    "subfolder": "%name",
+    "naming": "%name_%index_%timestamp",
+    "format": "image/png",
+    "processors": []
+  },
+  "/flir_camera/image_raw/compressed": {
+    "path": "/path/to/store/extracted/data",
+    "subfolder": "%name",
+    "naming": "%name_%index_%timestamp",
+    "format": "image/png",
+    "processors": []
+  },
+  "/flir_camera/camera_info": {
+    "path": "/path/to/store/extracted/data",
+    "subfolder": "%name",
+    "naming": "%name",
+    "format": "text/json@single_file"
+  },
+  "/ueye/ids_camera/camera_info": {
+    "path": "/path/to/store/extracted/data",
+    "subfolder": "%name",
+    "naming": "%name",
+    "format": "text/json@single_file"
+  },
+  "/cx/lslidar_point_cloud_deskewed": {
+    "path": "/path/to/store/extracted/data",
+    "subfolder": "%name",
+    "naming": "%name_%index_%timestamp",
+    "format": "pointcloud/xyz",
+    "processors": []
+  },
+  "/cx/lslidar_point_cloud": {
+    "path": "/path/to/store/extracted/data",
+    "subfolder": "%name",
+    "naming": "%name_%index_%timestamp",
+    "format": "pointcloud/xyz",
+    "processors": []
+  },
+  "__global__": {
+    "cpu_percentage": 80.0
+  }
+}

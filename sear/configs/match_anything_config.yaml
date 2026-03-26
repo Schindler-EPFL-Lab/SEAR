@@ -1,0 +1,16 @@
+general:
+  tile_selection: none
+  tile_overlap: 0
+  geom_verification: USAC_MAGSAC
+  min_inliers_per_pair: 10
+  min_inlier_ratio_per_pair: 0.05
+  gv_threshold: 4
+  matching_strategy: custom_pairs
+
+extractor:
+  name: "no_extractor"
+
+matcher:
+  name: "match_anything"
+  preprocess_shape: [640, 480]
+  match_threshold: 0.01

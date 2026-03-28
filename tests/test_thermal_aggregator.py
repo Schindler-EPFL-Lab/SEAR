@@ -4,7 +4,7 @@ import unittest
 import torch
 import torch.nn as nn
 
-from sear.models.thermal_aggregators.base import ThermalAggregatorBase
+from sear.ablation_models.thermal_aggregators.base import ThermalAggregatorBase
 
 
 class ModelNoneInjectable(nn.Module):

@@ -12,7 +12,10 @@ from vggt.utils.pose_enc import pose_encoding_to_extri_intri
 
 from sear.data_processing.chunk import Chunk
 from sear.data_processing.paired_item import PairedItem
-from sear.scripts.pairs_eval.base import PairsEvalParametersBase, main
+from sear.scripts.eval.relative_camera_pose_estimation.base import (
+    PairsEvalParametersBase,
+    main,
+)
 
 
 @dataclass

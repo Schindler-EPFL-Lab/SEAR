@@ -6,8 +6,10 @@ import tyro
 from romatch import roma_outdoor
 from transformers import EfficientLoFTRImageProcessorFast
 
-from sear.scripts.pairs_eval.base import main
-from sear.scripts.pairs_eval.roma_pairs_eval import RomaEvalPairs
+from sear.scripts.eval.relative_camera_pose_estimation.base import main
+from sear.scripts.eval.relative_camera_pose_estimation.roma_relative_camera_pose import (  # noqa: E501
+    RomaEvalPairs,
+)
 
 
 @dataclass

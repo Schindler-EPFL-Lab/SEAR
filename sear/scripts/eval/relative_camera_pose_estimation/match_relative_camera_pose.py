@@ -13,7 +13,10 @@ from transformers import (
 )
 from transformers.image_utils import load_image
 
-from sear.scripts.pairs_eval.base import PairsEvalKeypointsParametersBase, main
+from sear.scripts.eval.relative_camera_pose_estimation.base import (
+    PairsEvalKeypointsParametersBase,
+    main,
+)
 
 
 @dataclass

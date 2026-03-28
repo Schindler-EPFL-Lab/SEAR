@@ -1,12 +1,12 @@
 from collections.abc import Mapping
 from pathlib import Path
-from typing import Any
+from typing import Any, override
 
 import torch
 import torch.nn as nn
 from vggt.models.vggt import CameraHead, DPTHead
 
-from sear.models.thermal_aggregator import ThermalAggregator
+from sear.models.thermal_aggregators.base import ThermalAggregatorBase
 
 
 class ThermalVGGT(nn.Module):
@@ -15,12 +15,8 @@ class ThermalVGGT(nn.Module):
     def __init__(
         self,
         vggt_state_dict: Mapping[str, Any],
-        img_size: int = 518,
-        patch_size: int = 14,
+        thermal_aggregator: ThermalAggregatorBase,
         embed_dim: int = 1024,
-        lora_alpha: int = 128,
-        lora_rank: int = 64,
-        lora_dropout: float = 0.1,
     ) -> None:
         """
         Instantiates the wrapper around the vggt model. Notably, this implementation has
@@ -32,15 +28,7 @@ class ThermalVGGT(nn.Module):
         """
         super().__init__()
 
-        self.aggregator = ThermalAggregator(
-            vggt_state_dict=vggt_state_dict,
-            img_size=img_size,
-            patch_size=patch_size,
-            embed_dim=embed_dim,
-            lora_alpha=lora_alpha,
-            lora_rank=lora_rank,
-            lora_dropout=lora_dropout,
-        )
+        self.aggregator = thermal_aggregator
 
         self.camera_head = CameraHead(dim_in=2 * embed_dim)
         self.depth_head = DPTHead(
@@ -51,14 +39,14 @@ class ThermalVGGT(nn.Module):
         )
 
         # initialize modules
-        self.camera_head.load_state_dict(
-            state_dict=ThermalAggregator.get_state_dict_part(
+        _ = self.camera_head.load_state_dict(
+            state_dict=ThermalAggregatorBase.get_state_dict_part(
                 state_dict=vggt_state_dict, starts_with="camera_head"
             )
         )
 
-        self.depth_head.load_state_dict(
-            state_dict=ThermalAggregator.get_state_dict_part(
+        _ = self.depth_head.load_state_dict(
+            state_dict=ThermalAggregatorBase.get_state_dict_part(
                 state_dict=vggt_state_dict, starts_with="depth_head"
             )
         )
@@ -74,12 +62,8 @@ class ThermalVGGT(nn.Module):
     def from_checkpoint_path(
         cls,
         vggt_ckpt_path: Path,
-        img_size: int = 518,
-        patch_size: int = 14,
+        thermal_aggregator: ThermalAggregatorBase,
         embed_dim: int = 1024,
-        lora_alpha: int = 128,
-        lora_rank: int = 64,
-        lora_dropout: float = 0.1,
     ) -> "ThermalVGGT":
         """
         Instantiates the class using `vggt_ckpt_path` instead of `vggt_state_dict`. The
@@ -91,14 +75,11 @@ class ThermalVGGT(nn.Module):
         vggt_state_dict = torch.load(vggt_ckpt_path)
         return cls(
             vggt_state_dict=vggt_state_dict,
-            img_size=img_size,
-            patch_size=patch_size,
+            thermal_aggregator=thermal_aggregator,
             embed_dim=embed_dim,
-            lora_alpha=lora_alpha,
-            lora_rank=lora_rank,
-            lora_dropout=lora_dropout,
         )
 
+    @override
     def forward(
         self, images: torch.Tensor, thermal_mask: torch.Tensor
     ) -> dict[str, torch.Tensor]:
@@ -156,10 +137,12 @@ class ThermalVGGT(nn.Module):
 
         return predictions
 
+    @override
     def state_dict(self, *args, **kwargs) -> Mapping[str, Any]:
         """Returns the aggregator state dict"""
         return self.aggregator.state_dict(*args, **kwargs)
 
+    @override
     def load_state_dict(self, *args, **kwargs) -> None:
         """Loads the aggregator state dict"""
         self.aggregator.load_state_dict(*args, **kwargs)

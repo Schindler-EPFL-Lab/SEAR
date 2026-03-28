@@ -1,7 +1,7 @@
 import re
 import unittest
 
-from sear.ablation_models.thermal_aggregators.custom_patterns import (
+from sear.models.thermal_aggregators.custom_patterns import (
     CustomPatterns,
 )
 

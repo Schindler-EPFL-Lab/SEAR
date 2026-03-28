@@ -30,14 +30,14 @@ import torch
 import tyro
 from vggt.utils.pose_enc import pose_encoding_to_extri_intri
 
-from sear.ablation_models.aggregator_config import AggregatorConfig
-from sear.ablation_models.vggt_wrapper import (
+from sear.data_processing.chunk import Chunk
+from sear.data_processing.inference_scene import InferenceScene
+from sear.models.aggregator_config import AggregatorConfig
+from sear.models.vggt_wrapper import (
     OptimizationParameters,
     ThermalVGGTConfig,
     ThermalVGGTLightning,
 )
-from sear.data_processing.chunk import Chunk
-from sear.data_processing.inference_scene import InferenceScene
 from sear.scripts.eval.base import ChunkProcessorBase, EvalParametersBase, main
 
 

@@ -5,27 +5,27 @@ from typing import Any, Mapping
 import torch
 from dataclasses_reverse_cli.reverse_cli import ReverseCli
 
-from sear.ablation_models.possible_aggregators import PossibleAggregators
-from sear.ablation_models.thermal_aggregators.base import ThermalAggregatorBase
-from sear.ablation_models.thermal_aggregators.custom_patterns import (
+from sear.models.possible_aggregators import PossibleAggregators
+from sear.models.thermal_aggregators.base import ThermalAggregatorBase
+from sear.models.thermal_aggregators.custom_patterns import (
     CustomPatterns,
 )
-from sear.ablation_models.thermal_aggregators.lora import (
+from sear.models.thermal_aggregators.lora import (
     ThermalAggregatorLoRA,
 )
-from sear.ablation_models.thermal_aggregators.no_lora import (
+from sear.models.thermal_aggregators.no_lora import (
     ThermalAggregatorNoLora,
 )
-from sear.ablation_models.thermal_aggregators.thermal_camera_token import (
+from sear.models.thermal_aggregators.thermal_camera_token import (
     ThermalAggregatorThermalCameraToken,
 )
-from sear.ablation_models.thermal_aggregators.thermal_camera_token_no_lora import (  # noqa: E501
+from sear.models.thermal_aggregators.thermal_camera_token_no_lora import (  # noqa: E501
     ThermalAggregatorThermalCameraTokenNoLoRA,
 )
-from sear.ablation_models.thermal_aggregators.thermal_modality_token import (
+from sear.models.thermal_aggregators.thermal_modality_token import (
     ThermalAggregatorThermalModalityToken,
 )
-from sear.ablation_models.thermal_aggregators.thermal_projector import (
+from sear.models.thermal_aggregators.thermal_projector import (
     ThermalAggregatorThermalProjector,
 )
 

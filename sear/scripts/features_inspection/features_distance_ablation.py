@@ -4,13 +4,9 @@ from pathlib import Path
 import torch
 import tyro
 
-from sear.ablation_models.aggregator_config import AggregatorConfig
-from sear.ablation_models.vggt_wrapper import (
-    OptimizationParameters,
-    ThermalVGGTConfig,
-    ThermalVGGTLightning,
-)
 from sear.data_processing.chunk import Chunk
+from sear.models.aggregator_config import AggregatorConfig
+from sear.models.vggt_wrapper import OptimizationParameters, ThermalVGGTConfig
 from sear.scripts.features_inspection.features_distance_base import (
     GenerateFeatureDistanceParamsBase,
     InferenceAggregatorBase,

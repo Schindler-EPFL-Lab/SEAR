@@ -5,8 +5,8 @@ from pathlib import Path
 
 import tyro
 
-from sear.ablation_models.aggregator_config import AggregatorConfig
-from sear.ablation_models.vggt_wrapper import (
+from sear.models.aggregator_config import AggregatorConfig
+from sear.models.vggt_wrapper import (
     OptimizationParameters,
     ThermalVGGTConfig,
 )

@@ -1,59 +1,45 @@
 from collections.abc import Mapping
-from typing import Any
+from typing import Any, OrderedDict
 
 import torch
 import torch.nn as nn
-from vggt.models.aggregator import slice_expand_and_flatten
 
-from sear.ablation_models.thermal_aggregators.custom_patterns import (
-    CustomPatterns,
+from sear.models.thermal_aggregators.base import (
+    ThermalAggregatorBase,
 )
-from sear.ablation_models.thermal_aggregators.lora import ThermalAggregatorLoRA
 
 
-class ThermalAggregatorThermalCameraToken(ThermalAggregatorLoRA):
+class ThermalAggregatorNoLora(ThermalAggregatorBase):
     """
-    An ablation study for the proposed ThermalVGGT method which applies LoRA and
-    replaces camera tokens of thermal sequences by a new learnable <thermal camera
-    token>
+    An ablation study for the proposed ThermalVGGT method which does not use LoRA.
     """
 
-    KEEP_IN_STATE_DICT: set[str] = {"thermal_camera_token", "lora"}
+    KEEP_IN_STATE_DICT: set[str] = {"thermal_proj"}
 
     def __init__(
         self,
         vggt_state_dict: Mapping[str, Any],
-        pattern: CustomPatterns = CustomPatterns.ORIGINAL,
         img_size: int = 518,
         patch_size: int = 14,
         embed_dim: int = 1024,
-        lora_alpha: int = 128,
-        lora_rank: int = 64,
-        lora_dropout: float = 0.1,
     ) -> None:
         """
         Instantiates the wrapper around the vggt aggregator. The `vggt_state_dict` is
         the state dict of the original VGGT model, the `img_size` specifies the largest
         image dimention, `patch_size` is an image patch size, `embed_dim` is a patch
-        dimention. The `lora_alpha`, `lora_rank` and `lora_dropout` specify the LoRA
-        module. The `pattern` defines the what modules to use for LoRA incorporation.
+        dimention.
         """
         super().__init__(
             vggt_state_dict=vggt_state_dict,
-            pattern=pattern,
             img_size=img_size,
             patch_size=patch_size,
             embed_dim=embed_dim,
-            lora_alpha=lora_alpha,
-            lora_rank=lora_rank,
-            lora_dropout=lora_dropout,
         )
 
-        # initialize thermal camera token
-        self._thermal_camera_token = nn.Parameter(
-            self.aggregator.camera_token.detach().clone(),
-            requires_grad=True,
-        )
+        # initialize thermal proj
+        self._thermal_proj = nn.Linear(self._embed_dim, self._embed_dim)
+        nn.init.eye_(self._thermal_proj.weight)
+        nn.init.zeros_(self._thermal_proj.bias)
 
     def process_thermal_tokens(
         self,
@@ -71,19 +57,15 @@ class ThermalAggregatorThermalCameraToken(ThermalAggregatorLoRA):
         batch), number of patches + camera tokens + register tokens, embedding
         dimention].
 
-        For the processing strategy it replaces camera tokens of thermal images by a
-        learnable <thermal camera token>.
+        For the processing strategy it uses <thermal projector>, which updates each
+        token by using a learnable linear layer.
 
         :return: processed tokens of the same shape as `tokens`.
         """
-        # (1, 2, 1, C) -> (B*S, 1, C)
-        thermal_camera_token = slice_expand_and_flatten(
-            token_tensor=self._thermal_camera_token, B=B, S=S
-        )
-
+        thermal_tokens = tokens[thermal_mask_flat]
+        thermal_tokens = self._thermal_proj(thermal_tokens).to(tokens)
         tokens = tokens.clone()  # this is crucial for gradient flow with indexing
-        # replace camera tokens, the first token is always the camera token.
-        tokens[thermal_mask_flat, 0, :] = thermal_camera_token[thermal_mask_flat, 0, :]
+        tokens[thermal_mask_flat] = thermal_tokens
         return tokens
 
     def state_dict(
@@ -96,8 +78,10 @@ class ThermalAggregatorThermalCameraToken(ThermalAggregatorLoRA):
 
         :returns a dict where key represent the module name and value is its weights.
         """
-        destination = ThermalAggregatorLoRA.state_dict(self, destination=destination)
-        destination["thermal_camera_token"] = self._thermal_camera_token.detach()
+        if destination is None:
+            destination: Mapping[str, Any] = OrderedDict()
+        destination["thermal_proj"] = self._thermal_proj.state_dict()
+
         return destination
 
     def load_state_dict(self, state_dict: Mapping[str, Any], *args, **kwargs) -> None:
@@ -105,7 +89,4 @@ class ThermalAggregatorThermalCameraToken(ThermalAggregatorLoRA):
         Loads the `state_dict` of the model which must consist of state dicts of the
         thermal projector and LoRA weights.
         """
-        ThermalAggregatorLoRA.load_state_dict(
-            self, state_dict=state_dict, *args, **kwargs
-        )
-        self._thermal_camera_token.data.copy_(state_dict["thermal_camera_token"])
+        self._thermal_proj.load_state_dict(state_dict["thermal_proj"], *args, **kwargs)

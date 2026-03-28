@@ -4,10 +4,10 @@ from typing import Any
 import torch
 import torch.nn as nn
 
-from sear.ablation_models.thermal_aggregators.custom_patterns import (
+from sear.models.thermal_aggregators.custom_patterns import (
     CustomPatterns,
 )
-from sear.ablation_models.thermal_aggregators.lora import ThermalAggregatorLoRA
+from sear.models.thermal_aggregators.lora import ThermalAggregatorLoRA
 
 
 class ThermalAggregatorThermalModalityToken(ThermalAggregatorLoRA):

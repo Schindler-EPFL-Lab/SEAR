@@ -13,6 +13,7 @@ from vggt.utils.pose_enc import pose_encoding_to_extri_intri
 
 from sear.data_processing.multiple_dataset import Chunk, VGGTMultipleDataset
 from sear.metrics.calculator import MetricsCalculator
+from sear.models.thermal_aggregators.base import ThermalAggregatorBase
 from sear.models.thermal_vggt import ThermalVGGT
 from sear.visualization.cameras import (
     draw_camera_extrinsics,
@@ -22,7 +23,7 @@ from sear.visualization.cameras import (
 
 @dataclass
 class ThermalVGGTConfig(ReverseCli):
-    """Configuration class for VGGT LoRA model"""
+    """Configuration class for VGGT model"""
 
     vggt_path: Path = Path("vggt-model")
     """Checkpoint path of the original vggt model"""
@@ -32,16 +33,6 @@ class ThermalVGGTConfig(ReverseCli):
     """Patch size used in DINO"""
     embed_dim: int = 1024
     """Inner embedding dimention used in computation"""
-    lora_alpha: int = 128
-    """
-    LoRA alpha parameter, which determines the scale (alpha / rank) of the additional
-    branch. One is advised to look at the Sec 4.1 of the paper
-    https://arxiv.org/pdf/2106.09685
-    """
-    lora_rank: int = 64
-    """LoRA rank parameter, the bigger the rank the larget the LoRA adapter is"""
-    lora_dropout: float = 0.1
-    """LoRA dropout parameter"""
     loss_camera_weight: float = 5.0
     """coefficient for weighting the camera loss"""
     loss_depth_weight: float = 1.0
@@ -50,7 +41,7 @@ class ThermalVGGTConfig(ReverseCli):
 
 @dataclass
 class OptimizationParameters(ReverseCli):
-    learning_rate: float = 1e-4
+    learning_rate: float = 5e-5
     """Learning rate used during the optimization"""
     weight_decay: float = 1e-2
     """Weight decay parameter for AdamW"""
@@ -65,12 +56,16 @@ class OptimizationParameters(ReverseCli):
 
 class ThermalVGGTLightning(L.LightningModule):
     def __init__(
-        self, config: ThermalVGGTConfig, optimization_config: OptimizationParameters
+        self,
+        thermal_aggregator: ThermalAggregatorBase,
+        config: ThermalVGGTConfig,
+        optimization_config: OptimizationParameters,
     ) -> None:
         """
-        Initializes the VGGT wrapper model. The `config` determines the parameters
-        required to initialize the inner VGGT model, while the `optimization_config`
-        determines necessary parameters for finetuning.
+        Initializes the VGGT wrapper model. The `thermal_aggregator` defines the
+        Aggregator to use. The `config` determines the parameters required to initialize
+        the inner VGGT model, while the `optimization_config` determines necessary
+        parameters for finetuning.
         """
         super().__init__()
         self._device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -78,10 +73,10 @@ class ThermalVGGTLightning(L.LightningModule):
         self._optimization_config = optimization_config
 
         # load vggt
-        self._vggt = ThermalVGGT.from_checkpoint_path(
-            vggt_ckpt_path=self._config.vggt_path,
-            img_size=self._config.img_size,
-            patch_size=self._config.patch_size,
+        vggt_state_dict = torch.load(self._config.vggt_path)
+        self._vggt = ThermalVGGT(
+            vggt_state_dict=vggt_state_dict,
+            thermal_aggregator=thermal_aggregator,
             embed_dim=self._config.embed_dim,
         )
 

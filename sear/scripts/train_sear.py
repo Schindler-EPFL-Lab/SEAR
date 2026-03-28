@@ -41,16 +41,16 @@ from lightning import Trainer
 from lightning.pytorch.callbacks import DeviceStatsMonitor, ModelCheckpoint
 from lightning.pytorch.loggers import CSVLogger
 
-from sear.ablation_models.aggregator_config import AggregatorConfig
-from sear.ablation_models.vggt_wrapper import (
-    OptimizationParameters,
-    ThermalVGGTConfig,
-    ThermalVGGTLightning,
-)
 from sear.augment.geometric import GeometricTransformConfig
 from sear.augment.rgb import RGBTransformFactory
 from sear.augment.thermal import ThermalTransformFactory
 from sear.data_processing.multiple_dataset import VGGTMultipleDataset
+from sear.models.aggregator_config import AggregatorConfig
+from sear.models.vggt_wrapper import (
+    OptimizationParameters,
+    ThermalVGGTConfig,
+    ThermalVGGTLightning,
+)
 
 
 @dataclass

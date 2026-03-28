@@ -5,7 +5,7 @@ import torch
 import torch.nn as nn
 from vggt.models.aggregator import slice_expand_and_flatten
 
-from sear.ablation_models.thermal_aggregators.base import ThermalAggregatorBase
+from sear.models.thermal_aggregators.base import ThermalAggregatorBase
 
 
 class ThermalAggregatorThermalCameraTokenNoLoRA(ThermalAggregatorBase):

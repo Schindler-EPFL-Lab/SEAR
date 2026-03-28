@@ -10,8 +10,8 @@ from peft import (
     set_peft_model_state_dict,
 )
 
-from sear.ablation_models.thermal_aggregators.base import ThermalAggregatorBase
-from sear.ablation_models.thermal_aggregators.custom_patterns import (
+from sear.models.thermal_aggregators.base import ThermalAggregatorBase
+from sear.models.thermal_aggregators.custom_patterns import (
     CustomPatterns,
 )
 

@@ -3,6 +3,7 @@ Extracts camera poses and depths of rgb images representing a scene and saves th
 It also saves thermal images.
 """
 
+import gc
 import json
 import shutil
 import tempfile
@@ -13,17 +14,21 @@ import numpy as np
 import torch
 import tyro
 from dataclasses_reverse_cli.reverse_cli import ReverseCli
-from general_thermal.models.thermal_vggt import ThermalVGGT
 from PIL import Image
 from torchvision.transforms import ToPILImage
+from vggt.models.vggt import VGGT
 from vggt.utils.load_fn import load_and_preprocess_images
+from vggt.utils.pose_enc import pose_encoding_to_extri_intri
 
 from sear.data_processing.frame_info import FrameInfo
+from sear.visualization.point_cloud_from_dataset import (
+    PointCloudFromDatasetCreator,
+)
 
 
 @dataclass
 class VGGTParameters(ReverseCli):
-    model_path: Path = Path("model")
+    model_path: Path
     """Directory containing input model"""
     scene_dir: Path = Path("input")
     """Directory containing input images"""
@@ -35,6 +40,8 @@ class VGGTParameters(ReverseCli):
     """Directory to save output files"""
     convert_to_rgb: bool = True
     """Whether to remove the alpha channel presented in images"""
+    use_thermal: bool = False
+    """Whether to use thermals instead of rgb to create predictions"""
 
 
 def _remove_rgba_and_preprocess(image_names: list[Path]) -> torch.Tensor:
@@ -59,16 +66,19 @@ def _remove_rgba_and_preprocess(image_names: list[Path]) -> torch.Tensor:
 def create_vggt_dataset(args: VGGTParameters) -> None:
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    reconstruction = ThermalVGGT(
-        model_path=args.model_path,
-        image_dir=args.scene_dir,
-        output_dir=args.output_dir,
-        conf_treshold=50.0,
-        stride=1,
-        save_processed_images=False,
-        use_half_dataset=False,
-        shuffle_output=False,
-    )
+    # load model
+    model = VGGT()
+    state_dict = torch.load(args.model_path, map_location=device)
+    model.load_state_dict(state_dict)
+    del model.point_head
+    model.point_head = None
+    del model.track_head
+    model.track_head = None
+    gc.collect()
+    torch.cuda.empty_cache()
+
+    model = model.to(device)
+    model.eval()
 
     # read images
     images_dir = args.scene_dir / args.rgb_images_name
@@ -77,16 +87,29 @@ def create_vggt_dataset(args: VGGTParameters) -> None:
         images_list = _remove_rgba_and_preprocess(image_names)
     else:
         images_list = load_and_preprocess_images(image_path_list=image_names)
-    images_list = images_list.to(device)
 
     thermals_dir = args.scene_dir / args.thermal_images_name
     thermals_names = sorted([f for f in thermals_dir.iterdir()])
     thermals_list = load_and_preprocess_images(image_path_list=thermals_names)
 
     # run vggt
-    extrinsic_world2cam, intrinsic, depth_map, _ = reconstruction.run_VGGT(
-        images=images_list,
-    )
+    with torch.inference_mode():
+        with torch.amp.autocast(str(device), dtype=torch.float16):
+            input_frames = images_list
+            if params.use_thermal:
+                input_frames = thermals_list
+            input_frames = input_frames.to(device)
+            model_prediction = model.forward(images=input_frames)
+            pose_enc_list = model_prediction["pose_enc_list"]
+            pred_depth = model_prediction["depth"]
+
+        extrinsics_pred_world2cam, intrinsics = pose_encoding_to_extri_intri(
+            pose_enc_list[-1].to(torch.float32), images_list.shape[-2:]
+        )
+
+        pred_depth = pred_depth[0]
+        extrinsics_pred_world2cam = extrinsics_pred_world2cam[0]
+        intrinsics = intrinsics[0]
 
     # save the results
     if args.output_dir.exists():
@@ -120,7 +143,7 @@ def create_vggt_dataset(args: VGGTParameters) -> None:
         depth_file_path = Path(output_depths_folder_name) / (
             image_names[i].stem + ".npy"
         )
-        np.save(args.output_dir / depth_file_path, depth_map[i])
+        np.save(args.output_dir / depth_file_path, pred_depth[i].cpu().numpy())
 
         thermal = to_pil(thermals_list[i])
         thermal_file_path = Path(output_thermal_folder_name) / thermals_names[i].name
@@ -128,8 +151,8 @@ def create_vggt_dataset(args: VGGTParameters) -> None:
 
         # create poses
         frame_rgb = FrameInfo(
-            extrinsic_matrix_world2cam=extrinsic_world2cam[i],
-            intrinsic_matrix=intrinsic[i],
+            extrinsic_matrix_world2cam=extrinsics_pred_world2cam[i].cpu(),
+            intrinsic_matrix=intrinsics[i].cpu(),
             width=image.size[0],
             height=image.size[1],
             image_path=file_path,
@@ -138,8 +161,8 @@ def create_vggt_dataset(args: VGGTParameters) -> None:
         frame_rgb["type"] = "rgb"
 
         frame_thermal = FrameInfo(
-            extrinsic_matrix_world2cam=extrinsic_world2cam[i],
-            intrinsic_matrix=intrinsic[i],
+            extrinsic_matrix_world2cam=extrinsics_pred_world2cam[i].cpu(),
+            intrinsic_matrix=intrinsics[i].cpu(),
             width=thermal.size[0],
             height=thermal.size[1],
             image_path=thermal_file_path,
@@ -151,6 +174,10 @@ def create_vggt_dataset(args: VGGTParameters) -> None:
 
     with open(args.output_dir / "transforms.json", "w") as f:
         json.dump(transforms, f, indent=4)
+
+    # create point cloud
+    point_cloud_creator = PointCloudFromDatasetCreator(scene_path=args.output_dir)
+    point_cloud_creator.create_point_clouds(output_folder=args.output_dir)
 
 
 if __name__ == "__main__":

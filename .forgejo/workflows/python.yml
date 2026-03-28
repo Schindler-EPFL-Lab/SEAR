@@ -41,6 +41,7 @@ jobs:
 
       - name: Install the project
         run: |
+          apt-get update && apt install -y libgl1
           git clone https://github.com/facebookresearch/vggt.git && \
           uv sync --frozen
 

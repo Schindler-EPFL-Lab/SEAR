@@ -18,6 +18,8 @@ from sear.metrics.point_cloud_accuracy import (
 )
 from sear.metrics.rpe import calculate_cameras_rpe_given_errors
 from sear.metrics.rra_rta_maa import (
+    _calculate_rotation_error,
+    _calculate_translation_error_degree,
     _check_cameras_shapes,
     calculate_cameras_rra_rta_maa_given_errors,
     relative_rotation_and_translation_errors,
@@ -434,6 +436,42 @@ class PoseErrors:
 
         return pose_errors
 
+    @classmethod
+    def from_relative_poses(
+        cls,
+        relative_cameras_real_cam2world: npt.NDArray[np.float64],
+        relative_cameras_pred_cam2world: npt.NDArray[np.float64],
+    ) -> "PoseErrors":
+        """
+        Creates `PoseErrors` from relative camera poses in cam2world opencv format,
+        which is essential to properly calculate metrics on 2-image settings.
+        """
+
+        result = cls.empty()
+
+        relative_rotation_errors = np.zeros(
+            (relative_cameras_real_cam2world.shape[0],), dtype=np.float64
+        )
+        relative_translation_errors_degree = np.zeros(
+            (relative_cameras_real_cam2world.shape[0],), dtype=np.float64
+        )
+
+        for i in range(relative_cameras_real_cam2world.shape[0]):
+            relative_rotation_errors[i] = _calculate_rotation_error(
+                rotation_matrix_real=relative_cameras_real_cam2world[i, :3, :3],
+                rotation_matrix_pred=relative_cameras_pred_cam2world[i, :3, :3],
+            )
+
+            relative_translation_errors_degree[i] = _calculate_translation_error_degree(
+                translation_real=relative_cameras_real_cam2world[i, :3, 3],
+                translation_pred=relative_cameras_pred_cam2world[i, :3, 3],
+            )
+
+        result.relative_rotation = relative_rotation_errors
+        result.relative_translation_degree = relative_translation_errors_degree
+
+        return result
+
     def append(self, other: "PoseErrors") -> None:
         """Appends pose error values from `other`."""
         self.relative_rotation = np.concatenate(
@@ -569,6 +607,31 @@ class MetricsCalculator:
             self._scenes_in_datasets[dataset_name] = set()
         self._scenes_in_datasets[dataset_name].add(scene_name)
 
+    def add_data_relative(
+        self,
+        relative_cameras_real_cam2world: npt.NDArray[np.float64],
+        relative_cameras_pred_cam2world: npt.NDArray[np.float64],
+        scene_name: str,
+        dataset_name: str,
+    ) -> None:
+        """
+        Adds relative camera pose errors between `cameras_real_cam2world` and
+        `cameras_pred_cam2world` of a scene `scene_name` of a dataset `dataset_name`.
+        """
+
+        self._append_to_dict(
+            errors=self._poses_errors,
+            key=scene_name,
+            value=PoseErrors.from_relative_poses(
+                relative_cameras_real_cam2world=relative_cameras_real_cam2world,
+                relative_cameras_pred_cam2world=relative_cameras_pred_cam2world,
+            ),
+        )
+
+        if dataset_name not in self._scenes_in_datasets:
+            self._scenes_in_datasets[dataset_name] = set()
+        self._scenes_in_datasets[dataset_name].add(scene_name)
+
     @staticmethod
     def _calculate_metrics_bootstrap(
         poses_errors: dict[str, PoseErrors],
@@ -647,13 +710,21 @@ class MetricsCalculator:
                 )
             )
 
-            ate_rotation, ate_translation, ate_translation_degree = (
-                calculate_cameras_ate_given_errors(
-                    rotation_errors=poses_errors[key].rotation,
-                    translation_errors_distance=poses_errors[key].translation_distance,
-                    translation_errors_degree=poses_errors[key].translation_degree,
+            ate_rotation = ate_translation = ate_translation_degree = np.nan
+            if (
+                len(poses_errors[key].rotation) > 0
+                and len(poses_errors[key].translation_distance) > 0
+                and len(poses_errors[key].translation_degree) > 0
+            ):
+                ate_rotation, ate_translation, ate_translation_degree = (
+                    calculate_cameras_ate_given_errors(
+                        rotation_errors=poses_errors[key].rotation,
+                        translation_errors_distance=poses_errors[
+                            key
+                        ].translation_distance,
+                        translation_errors_degree=poses_errors[key].translation_degree,
+                    )
                 )
-            )
 
             accuracy, completeness, chamfer = (
                 calculate_point_cloud_metrics_given_errors(

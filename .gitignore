@@ -1,5 +1,4 @@
 vggt/
-images/
 *.egg-info
 __pycache__/
 config.json

@@ -178,75 +178,6 @@ class PoseErrors:
     num_frames: npt.NDArray[np.int64]
     """Number of reconstructed frames"""
 
-    @staticmethod
-    def _random_sample(arrays, seed: int):
-        for arr in arrays:
-            if arr.shape != arrays[0].shape:
-                raise RuntimeError("The shapes must be equal")
-
-        rng = np.random.default_rng(seed)
-        random_indices = rng.choice(
-            arrays[0].shape[0],
-            size=arrays[0].shape[0],
-            replace=True,
-        )
-        return [arr[random_indices] for arr in arrays]
-
-    def sample(self, seed: int) -> "PoseErrors":
-        (
-            relative_rotation_sample,
-            relative_translation_distance_sample,
-            relative_translation_degree_sample,
-        ) = self._random_sample(
-            [
-                self.relative_rotation,
-                self.relative_translation_distance,
-                self.relative_translation_degree,
-            ],
-            seed=seed,
-        )
-
-        rotation_sample, translation_distance_sample, translation_degree_sample = (
-            self._random_sample(
-                [
-                    self.rotation,
-                    self.translation_distance,
-                    self.translation_degree,
-                ],
-                seed=seed,
-            )
-        )
-
-        point_cloud_distances_from_ground_truth_sample = self._random_sample(
-            [self.point_cloud_distances_from_ground_truth],
-            seed=seed,
-        )[0]
-        point_cloud_distances_from_predicted_sample = self._random_sample(
-            [self.point_cloud_distances_from_predicted],
-            seed=seed,
-        )[0]
-
-        ratio_reconstructed_sample, duration_sample, num_frames_sample = (
-            self._random_sample(
-                [self.ratio_reconstructed, self.duration, self.num_frames],
-                seed=seed,
-            )
-        )
-
-        return PoseErrors(
-            relative_rotation=relative_rotation_sample,
-            relative_translation_distance=relative_translation_distance_sample,
-            relative_translation_degree=relative_translation_degree_sample,
-            rotation=rotation_sample,
-            translation_distance=translation_distance_sample,
-            translation_degree=translation_degree_sample,
-            point_cloud_distances_from_ground_truth=point_cloud_distances_from_ground_truth_sample,
-            point_cloud_distances_from_predicted=point_cloud_distances_from_predicted_sample,
-            ratio_reconstructed=ratio_reconstructed_sample,
-            duration=duration_sample,
-            num_frames=num_frames_sample,
-        )
-
     @classmethod
     def empty(cls) -> "PoseErrors":
         """
@@ -520,7 +451,6 @@ class MetricsCalculator:
         self,
         thresholds: list[float],
         calculate_point_cloud_metrics_datasets: list[str] | None = None,
-        num_bootstrap: int = 0,
     ) -> None:
         """
         Initializes the class. The `thresholds` are used for computing some metrics
@@ -535,7 +465,6 @@ class MetricsCalculator:
         self._calculate_point_cloud_metrics_datasets = set(
             calculate_point_cloud_metrics_datasets
         )
-        self._num_bootstrap = num_bootstrap
 
     @staticmethod
     def _append_to_dict(
@@ -631,49 +560,6 @@ class MetricsCalculator:
         if dataset_name not in self._scenes_in_datasets:
             self._scenes_in_datasets[dataset_name] = set()
         self._scenes_in_datasets[dataset_name].add(scene_name)
-
-    @staticmethod
-    def _calculate_metrics_bootstrap(
-        poses_errors: dict[str, PoseErrors],
-        thresholds: list[float],
-        save_path: Path | None = None,
-        num_bootstrap: int = 0,
-    ) -> list[dict[str, MetricsResult]]:
-        if num_bootstrap == 0:
-            results_all = [
-                MetricsCalculator._calculate_metrics(
-                    poses_errors=poses_errors,
-                    thresholds=thresholds,
-                    save_path=save_path,
-                )
-            ]
-        else:
-            results_all: list[dict[str, MetricsResult]] = []
-            for boot_idx in range(num_bootstrap):
-                poses_errors_boot: dict[str, PoseErrors] = {}
-                for key in poses_errors:
-                    poses_errors_boot[key] = poses_errors[key].sample(seed=boot_idx)
-                metrics_boot = MetricsCalculator._calculate_metrics(
-                    poses_errors=poses_errors_boot,
-                    thresholds=thresholds,
-                    save_path=None,
-                )
-                results_all.append(metrics_boot)
-
-        if save_path is not None:
-            with open(save_path, "w") as f:
-                json.dump(
-                    [
-                        {
-                            key: metrics_result.as_dict()
-                            for key, metrics_result in result.items()
-                        }
-                        for result in results_all
-                    ],
-                    f,
-                    indent=4,
-                )
-        return results_all
 
     @staticmethod
     def _calculate_metrics(
@@ -775,9 +661,7 @@ class MetricsCalculator:
 
         return result
 
-    def per_scene(
-        self, save_path: Path | None = None
-    ) -> list[dict[str, MetricsResult]]:
+    def per_scene(self, save_path: Path | None = None) -> dict[str, MetricsResult]:
         """
         Computes evaluation metrics independently for each scene. If `save_path` is
         provided, the computed metrics are stored on disk.
@@ -785,7 +669,7 @@ class MetricsCalculator:
         :return: A dictionary where keys are ``"<dataset_name>:<scene_name>"`` and
             metrics results on scene `scene_name` of dataset `dataset_name`.
         """
-        return self._calculate_metrics_bootstrap(
+        return self._calculate_metrics(
             poses_errors={
                 f"{dataset_name}:{scene_name}": self._poses_errors[scene_name]
                 for dataset_name, scenes_names in self._scenes_in_datasets.items()
@@ -793,12 +677,9 @@ class MetricsCalculator:
             },
             thresholds=self._thresholds,
             save_path=save_path,
-            num_bootstrap=self._num_bootstrap,
         )
 
-    def per_dataset(
-        self, save_path: Path | None = None
-    ) -> list[dict[str, MetricsResult]]:
+    def per_dataset(self, save_path: Path | None = None) -> dict[str, MetricsResult]:
         """
         Computes evaluation metrics independently for each dataset. If `save_path` is
         provided, the computed metrics are stored on disk.
@@ -815,16 +696,15 @@ class MetricsCalculator:
                     value=self._poses_errors[scene_name],
                 )
 
-        return self._calculate_metrics_bootstrap(
+        return self._calculate_metrics(
             poses_errors=per_dataset_errors,
             thresholds=self._thresholds,
             save_path=save_path,
-            num_bootstrap=self._num_bootstrap,
         )
 
     def custom_aggregation(
         self, aggregation_per_scene: dict[str, list[str]], save_path: Path | None = None
-    ) -> list[dict[str, MetricsResult]]:
+    ) -> dict[str, MetricsResult]:
         """
         Calculates metrics when scenes are aggregated in custom way defined in
         `aggregation_per_scene`, which has format of
@@ -867,14 +747,13 @@ class MetricsCalculator:
                     value=self._poses_errors[scene_name],
                 )
 
-        return self._calculate_metrics_bootstrap(
+        return self._calculate_metrics(
             poses_errors=per_aggregation_errors,
             thresholds=self._thresholds,
             save_path=save_path,
-            num_bootstrap=self._num_bootstrap,
         )
 
-    def aggregated(self, save_path: Path | None = None) -> list[MetricsResult]:
+    def aggregated(self, save_path: Path | None = None) -> MetricsResult:
         """
         Computes evaluation metrics aggregated over all datasets and scenes. If
         `save_path` is provided, the computed metrics are stored on disk.
@@ -889,19 +768,14 @@ class MetricsCalculator:
                 value=self._poses_errors[scene_name],
             )
 
-        aggregated_metrics = self._calculate_metrics_bootstrap(
+        aggregated_metrics = self._calculate_metrics(
             poses_errors=aggregated_errors,
             thresholds=self._thresholds,
             save_path=save_path,
-            num_bootstrap=self._num_bootstrap,
         )
 
         if save_path is not None:
             with open(save_path, "w") as f:
-                json.dump(
-                    [agg["aggregated"].as_dict() for agg in aggregated_metrics],
-                    f,
-                    indent=4,
-                )
+                json.dump(aggregated_metrics["aggregated"].as_dict(), f, indent=4)
 
-        return [agg["aggregated"] for agg in aggregated_metrics]
+        return aggregated_metrics["aggregated"]

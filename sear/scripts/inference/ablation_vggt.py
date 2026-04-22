@@ -1,6 +1,6 @@
 import tyro
 
-from sear.scripts.eval.ablation_vggt import (
+from sear.scripts.eval.sear import (
     VGGTAblationChunkProcessor,
     VGGTAblationEvalParameters,
 )

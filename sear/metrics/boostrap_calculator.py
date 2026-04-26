@@ -21,8 +21,14 @@ from sear.metrics.rra_rta_maa import (
 class BootstrapMetricsCalculator:
     """
     Class for accumulating per-scene camera pose error statistics and computing
-    higher-level metrics (RRA, RTA, mAA, RPE, ATE, etc.) per scene, per dataset,
-    or aggregated across all scenes.
+    higher-level metrics (RRA, RTA, mAA, RPE, ATE, etc.) per scene, per dataset, or
+    aggregated across all scenes.
+
+    It samples scenes with replacement to compute metrics on bootstrapped samples of the
+    data, which allows estimating the variability of the metrics. This is better than
+    sampling frames with replacement, because the metrics on frames of one scene are not
+    independent and therefore the confidence intervals computed by sampling frames with
+    replacement are not correct and can be underestimated.
     """
 
     def __init__(
@@ -33,7 +39,10 @@ class BootstrapMetricsCalculator:
     ) -> None:
         """
         Initializes the class. The `thresholds` are used for computing some metrics
-        (e.g. RRA/RTA/mAA).
+        (e.g. RRA/RTA/mAA). The `calculate_point_cloud_metrics_datasets` is a list of
+        dataset names for which the point cloud metrics should be calculated. The
+        `num_bootstrap` is the number of bootstrap samples to use when calculating the
+        metrics.
         """
         if calculate_point_cloud_metrics_datasets is None:
             calculate_point_cloud_metrics_datasets = ["ORU"]

@@ -10,7 +10,7 @@ from sear.models.vggt_wrapper import (
     OptimizationParameters,
     ThermalVGGTConfig,
 )
-from sear.scripts.features_inspection.features_distance_ablation import (
+from sear.scripts.features_inspection.features_distance_sear import (
     InferenceAggregatorVGGTAblation,
 )
 from sear.scripts.features_inspection.vggt_original_aggregator_features import (

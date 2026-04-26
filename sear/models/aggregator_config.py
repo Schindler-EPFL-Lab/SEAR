@@ -47,7 +47,7 @@ class AggregatorConfig(ReverseCli):
     lora_dropout: float = 0.1
     """LoRA dropout parameter"""
 
-    type: PossibleAggregators = PossibleAggregators.ORIGINAL
+    type: PossibleAggregators = PossibleAggregators.CAMERA_TOKEN
     """The type of the aggregator to use"""
 
     def build_aggregator(
@@ -87,7 +87,7 @@ class AggregatorConfig(ReverseCli):
             )
 
         pattern_mapping_original = {
-            PossibleAggregators.ORIGINAL: CustomPatterns.ORIGINAL,
+            PossibleAggregators.THERMAL_PROJECTOR: CustomPatterns.ALL_BLOCKS,
             PossibleAggregators.FRAME_ONLY: CustomPatterns.FRAME_ONLY,
             PossibleAggregators.GLOBAL_ONLY: CustomPatterns.GLOBAL_ONLY,
             PossibleAggregators.FIRST_QUATER: CustomPatterns.FIRST_QUATER,
@@ -109,7 +109,7 @@ class AggregatorConfig(ReverseCli):
             )
 
         pattern_mapping_camera_token = {
-            PossibleAggregators.CAMERA_TOKEN: CustomPatterns.ORIGINAL,
+            PossibleAggregators.CAMERA_TOKEN: CustomPatterns.ALL_BLOCKS,
             PossibleAggregators.CAMERA_TOKEN_FRAME_ONLY: CustomPatterns.FRAME_ONLY,
             PossibleAggregators.CAMERA_TOKEN_GLOBAL_ONLY: CustomPatterns.GLOBAL_ONLY,
         }
@@ -128,7 +128,7 @@ class AggregatorConfig(ReverseCli):
 
         if self.type is PossibleAggregators.NO_THERMAL_PROJECTOR:
             return ThermalAggregatorLoRA(
-                pattern=CustomPatterns.ORIGINAL,
+                pattern=CustomPatterns.ALL_BLOCKS,
                 vggt_state_dict=vggt_state_dict,
                 img_size=img_size,
                 patch_size=patch_size,

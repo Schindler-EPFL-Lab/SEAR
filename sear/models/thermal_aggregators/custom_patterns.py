@@ -11,7 +11,7 @@ class CustomPatterns(Enum):
     """Add LoRA to frame attention blocks only"""
     GLOBAL_ONLY = r"^global_blocks.+"
     """Add LoRA to global attention blocks only"""
-    ORIGINAL = r"(^frame_blocks.+)|(^global_blocks.+)"
+    ALL_BLOCKS = r"(^frame_blocks.+)|(^global_blocks.+)"
     """
     Add LoRA to frame and global attention blocks, which is the original model setting
     """

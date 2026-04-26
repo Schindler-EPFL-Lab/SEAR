@@ -53,12 +53,10 @@ class GenerateFeatureDistanceParamsBase(ReverseCli):
     scene_root_path: Path = Path("input")
     """Path to the directory with images"""
     output_path: Path
-    """Path to save output json file"""
+    """Path to save output csv file"""
     max_num_images: int = 12
     """The maximum number of images to use"""
-    train_test_split_path: Path = Path(
-        "./src/rebel-pose/rebel_pose/configs/train_test_split.json"
-    )
+    train_test_split_path: Path = Path("./sear/configs/train_test_split.json")
     """
     Path to json file with train test split. The distance is be calculated on the
     eval scenes

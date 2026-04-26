@@ -82,7 +82,7 @@ class MatchAnythingChunkProcessor(ChunkProcessorBase):
 
         cmd = [
             "python3",
-            "src/rebel-pose/match_anything/run.py",
+            "./match_anything/run.py",
             "--pipeline",
             self._config.pipeline,
             "--config_file",

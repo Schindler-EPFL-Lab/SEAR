@@ -1,5 +1,4 @@
 import logging
-import sys
 from pathlib import Path
 
 import torch
@@ -12,7 +11,6 @@ from deep_image_matching.matchers import matcher_loader
 from deep_image_matching.utils import ImageList
 from deep_image_matching.utils.image import IMAGE_EXT
 
-sys.path.append("./src/rebel-pose/")
 from match_anything.matcher_match_anything import MatchAnythingMatcher
 from match_anything.matcher_minima import MINIMARoMAMatcher
 

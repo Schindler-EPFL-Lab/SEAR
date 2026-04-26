@@ -14,14 +14,15 @@ Key Features:
 - Model checkpointing and evaluation
 
 Usage:
-    python train_ablation_model.py --aggregator.type ORIGINAL \
+    python train_ablation_model.py --aggregator.type CAMERA_TOKEN \
         --thermal-vggt.vggt-path <path_to_base_vggt> \
         --scenes-root-path <path_to_scenes> \
         --thermal-vggt-ckpt-folder <output_checkpoints> \
         --epochs 100 --batch-size 1
 
 The script supports different aggregator types that control how LoRA is applied:
-- ORIGINAL: Thermal projector + LoRA on frame and global attention (default)
+- CAMERA_TOKEN: Learnable thermal camera token + LoRA on all attention blocks (default)
+- THERMAL_PROJECTOR: Thermal projector + LoRA on frame and global attention 
 - FRAME_ONLY: LoRA on frame attention blocks only
 - GLOBAL_ONLY: LoRA on global attention blocks only
 - NO_LORA: No LoRA adaptation (baseline)

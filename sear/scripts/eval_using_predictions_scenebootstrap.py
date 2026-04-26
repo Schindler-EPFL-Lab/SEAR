@@ -8,7 +8,17 @@ from sear.scripts.eval_using_predictions import (
 )
 
 
-def main(params: EvalParameters) -> None:
+class EvalParametersBootstrap(EvalParameters):
+    """
+    Evaluation parameters for the evaluation using predictions with bootstrap metrics
+    calculator.
+    """
+
+    num_bootstrap: int = 1000
+    """Number of bootstrap samples to use when calculating the metrics."""
+
+
+def main(params: EvalParametersBootstrap) -> None:
     """
     Evaluates predictions from `params.method_predictions_folder` and saves the results
     to `params.output_folder_root`.
@@ -82,5 +92,5 @@ def main(params: EvalParameters) -> None:
 
 
 if __name__ == "__main__":
-    params = tyro.cli(EvalParameters)
+    params = tyro.cli(EvalParametersBootstrap)
     main(params=params)

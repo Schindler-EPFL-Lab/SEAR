@@ -37,7 +37,7 @@ class ThermalAggregatorThermalModalityToken(ThermalAggregatorLoRA):
         """
         super().__init__(
             vggt_state_dict=vggt_state_dict,
-            pattern=CustomPatterns.ORIGINAL,
+            pattern=CustomPatterns.ALL_BLOCKS,
             img_size=img_size,
             patch_size=patch_size,
             embed_dim=embed_dim,

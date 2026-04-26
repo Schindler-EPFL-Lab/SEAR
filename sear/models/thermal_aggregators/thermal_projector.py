@@ -21,7 +21,7 @@ class ThermalAggregatorThermalProjector(ThermalAggregatorLoRA):
     def __init__(
         self,
         vggt_state_dict: Mapping[str, Any],
-        pattern: CustomPatterns = CustomPatterns.ORIGINAL,
+        pattern: CustomPatterns = CustomPatterns.ALL_BLOCKS,
         img_size: int = 518,
         patch_size: int = 14,
         embed_dim: int = 1024,

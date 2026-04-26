@@ -20,7 +20,7 @@ class PossibleAggregators(Enum):
     Use LoRA and learnable <thermal modality token> instead of the Thermal projector.
     For each thermal token the aggregator sums it with the <thermal modality token>.
     """
-    ORIGINAL = "original"
+    THERMAL_PROJECTOR = "thermal-projector"
     """
     Use Thermal Projector and add LoRA to frame and global attention blocks, which is 
     the original model setting

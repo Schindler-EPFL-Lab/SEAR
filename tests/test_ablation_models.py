@@ -117,13 +117,13 @@ class TestAblationModels(unittest.TestCase):
 
     def test_custom_pattern_original(self) -> None:
         """
-        Tests that CustomPatterns.ORIGINAL works properly.
+        Tests that CustomPatterns.ALL_BLOCKS works properly.
         """
         matches = [True] * 48 + [False] * 4
 
         self.assertEqual(
             self._find_matches(
-                self.blocks_names, pattern=CustomPatterns.ORIGINAL.value
+                self.blocks_names, pattern=CustomPatterns.ALL_BLOCKS.value
             ),
             matches,
         )

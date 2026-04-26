@@ -1,5 +1,4 @@
 import os
-import sys
 from pathlib import Path
 
 import deep_image_matching as dim
@@ -9,7 +8,6 @@ from deep_image_matching.utils.loftr_roma_to_multiview import (
     LoftrRomaToMultiview,
 )
 
-sys.path.append("./src/rebel-pose/")
 from match_anything.custom_parser import custom_parser
 from match_anything.image_matching import CustomImageMatcher
 

@@ -234,10 +234,10 @@ def main(
 ) -> None:
     """
     Converts the oru (Orebro) dataset located in `root_path` into ThermoScenesVGGT
-    format. One must follow the instructions in `rebel-pose/docs/oru.md` to extract data
-    from raw .mcap ROS2 files. The `tf_static_path` is the location of tf_static file
-    (which contains relative positions between the robot and rgb camera, thermal camera,
-    and lidar). If not provided then it would be taken from
+    format. One must follow the instructions in `sear/scripts/oru/README.md` to extract
+    data from raw .mcap ROS2 files. The `tf_static_path` is the location of tf_static
+    file (which contains relative positions between the robot and rgb camera, thermal
+    camera, and lidar). If not provided then it would be taken from
     `root_path`/tf_static/tf_static.json. The `tf_file_name` contains the file with the
     poses of the robot, and of the measuring device. The `image_folder_name` is the name
     of the folder containing rgb images. The `thermal_folder_name`  is the name of the

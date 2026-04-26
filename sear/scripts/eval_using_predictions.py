@@ -36,8 +36,6 @@ class EvalParameters(ReverseCli):
     """
     thresholds: list[float] | None = None
 
-    num_bootstrap: int = 0
-
     def __post_init__(self) -> None:
         """
         Does necessary post processing for the `EvalParameters` class
@@ -139,9 +137,7 @@ def main(params: EvalParameters) -> None:
 
     output_folder = params.output_folder_root / params.method_name
     output_folder.mkdir(exist_ok=True, parents=True)
-    calculator = MetricsCalculator(
-        thresholds=params.thresholds, num_bootstrap=params.num_bootstrap
-    )
+    calculator = MetricsCalculator(thresholds=params.thresholds)
 
     scenes_paths = sorted(list(params.method_predictions_folder.iterdir()))
     for scene_index, scene_path in enumerate(scenes_paths):

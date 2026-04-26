@@ -42,7 +42,8 @@ Ablation studies can run by using the other aggregator-types found in `sear/abla
 
 Models can be evaluated after training with `sear/scripts/eval/ablation_vggt.py`.
 
-To run the evaluation against Dust3r and Mast3r, see [the evaluation tutorial](docs/Evaluation.md).
+To run the evaluation see the tutorials for [camera pose and point cloud](docs/Evaluation/Main.md), [relative camera pose from two views](docs/evaluation/Pairs.md) and [dependence on thermal ratio](docs/Evaluation/ThermalRatio.md)
+
 
 ## Training Data
 

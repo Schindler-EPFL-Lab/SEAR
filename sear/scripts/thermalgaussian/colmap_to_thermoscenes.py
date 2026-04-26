@@ -30,7 +30,7 @@ def tf_nerfstudio_to_ours(transforms: dict[str, Any]) -> dict[str, Any]:
     Converts `transforms` in nerfstudio format
     https://docs.nerf.studio/quickstart/data_conventions.html
 
-    to ThermoScenesVGGT defined in `src/rebel-pose/README.md`.
+    to ThermoScenesVGGT defined in `sear/docs/Dataset.md`.
 
     :returns transforms in ThermoScenesVGGT format.
     """

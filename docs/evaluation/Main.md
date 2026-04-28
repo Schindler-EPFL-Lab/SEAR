@@ -20,7 +20,7 @@ python3 ./sear/scripts/eval/dust3r_eval.py \
 
 ## COLMAP
 
-One should install and build [nerfstudio](https://github.com/nerfstudio-project/nerfstudio), [Ceres](https://ceres-solver.googlesource.com/ceres-solver.git), [COLMAP](https://github.com/colmap/colmap.git) and [hloc](https://github.com/cvg/Hierarchical-Localization/). 
+One should install and build [nerfstudio](https://github.com/nerfstudio-project/nerfstudio), [Ceres](https://ceres-solver.googlesource.com/ceres-solver.git), [COLMAP](https://github.com/colmap/colmap.git) and [hloc](https://github.com/cvg/Hierarchical-Localization/).
 We use a script below for this purpose:
 
 ```bash
@@ -68,28 +68,28 @@ python3 ./sear/scripts/eval/colmap.py \
 ## MatchAnything and MINIMA
 
 1. Install the same packages as for [COLMAP](./Main.md#colmap)
-2. Install [deep-image-matching](https://github.com/3DOM-FBK/deep-image-matching.git). 
+2. Install [deep-image-matching](https://github.com/3DOM-FBK/deep-image-matching.git).
 3. Install weights of [`minima-roma`](https://github.com/LSXI7/storage/releases/download/MINIMA/minima_roma.pth).
 4. For MatchAnything run:
 
-```bash
-python3 ./sear/scripts/eval/match_anything.py \
-    --scenes_root_path /path/to/root/with/train/and/eval/scenes \
-    --store_results_folder /path/to/store/poses/and/depths \
-    --output_dir /where/to/store/cache/and/metrics/
-```
+    ```bash
+    python3 ./sear/scripts/eval/match_anything.py \
+        --scenes_root_path /path/to/root/with/train/and/eval/scenes \
+        --store_results_folder /path/to/store/poses/and/depths \
+        --output_dir /where/to/store/cache/and/metrics/
+    ```
 
     Note: ELoFTR checkpoint is be automatically downloaded from HuggingFace [`matchanything_eloftr`](https://huggingface.co/zju-community/matchanything_eloftr).
 
-
 5. For MINIMA run:
-```bash
-python3 ./sear/scripts/eval/minima.py \
-    --scenes_root_path /path/to/root/with/train/and/eval/scenes \
-    --store_results_folder /path/to/store/poses/and/depths \
-    --checkpoint_path /path/to/minima-roma/weights.pth \
-    --output_dir /where/to/store/cache/and/metrics/
-```
+
+    ```bash
+    python3 ./sear/scripts/eval/minima.py \
+        --scenes_root_path /path/to/root/with/train/and/eval/scenes \
+        --store_results_folder /path/to/store/poses/and/depths \
+        --checkpoint_path /path/to/minima-roma/weights.pth \
+        --output_dir /where/to/store/cache/and/metrics/
+    ```
 
 ## VGGT
 
@@ -103,9 +103,9 @@ python3 ./sear/scripts/eval/original_vggt.py \
     --output_dir /where/to/store/cache/and/metrics/
 ```
 
-# SEAR
+## SEAR
 
-Install SEAR checkpoint [`SEAR`](to-be-added) and run:
+Install SEAR checkpoints [`SEAR`](https://huggingface.co/MalcolmMielle/SEAR) and run:
 
 ```bash
 python3 ./sear/scripts/eval/sear.py \
@@ -117,18 +117,21 @@ python3 ./sear/scripts/eval/sear.py \
     --output_dir /where/to/store/cache/and/metrics/
 ```
 
-Where AGGERGATOR_TYPE is selected from a list [here](../../sear/models/possible_aggregators.py)
+Where AGGERGATOR_TYPE is selected from [those](../../sear/models/possible_aggregators.py).
 
-## Notes:
+## Notes
 
 - It usually takes long time to evaluate on each scene using COLMAP/MatchAnything/MINIMA and for each evaluation script we provide a parameter `--scenes_ids` such that it is possible to evaluate a batch of scenes using their insides:
-```bash
-python3 ./sear/scripts/eval/<method-name>.py -- \
-    ...
-    --scenes_ids 0 1 2 3
-```
-    Such that it is possible to run evaluation on several nodes for different scenes and speed up the evaluation. 
+
+    ```bash
+    python3 ./sear/scripts/eval/<method-name>.py -- \
+        ...
+        --scenes_ids 0 1 2 3
+    ```
+
+    Such that it is possible to run evaluation on several nodes for different scenes and speed up the evaluation.
     After that one should run:
+
     ```bash
     python3 eval_using_predictions.py \
     --method_predictions_folder /path/to/store_results_folder/used/during/evaluation/ \

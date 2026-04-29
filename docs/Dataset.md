@@ -145,7 +145,7 @@ The images must be readable using `PIL.Image.open`, while depth files must be re
 
 ## Processing the Datasets
 
-### Processing ThermoNeRF
+### Processing ThermoScenes
 
 1. Download data from [Zenodo](https://zenodo.org/records/10835108?)
 

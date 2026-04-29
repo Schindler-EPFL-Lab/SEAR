@@ -1,14 +1,26 @@
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 
 import tyro
+
+# You can stop doing this when
+# [issue 416](https://github.com/facebookresearch/vggt/issues/416) of VGGT is solved.
+sys.path.insert(
+    0,
+    str(
+        Path(__file__).resolve().parent.parent.parent.parent.parent
+        / "vggt"
+        / "training"
+    ),
+)
 
 from sear.models.aggregator_config import AggregatorConfig
 from sear.models.vggt_wrapper import (
     OptimizationParameters,
     ThermalVGGTConfig,
 )
-from sear.scripts.eval.sear import VGGTAblationChunkProcessor
+from sear.scripts.eval.sear_eval import VGGTAblationChunkProcessor
 from sear.scripts.eval.thermal_ratio.base import EvalRatiosParametersBase, main
 
 

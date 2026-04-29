@@ -1,8 +1,16 @@
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 
 import torch
 import tyro
+
+# You can stop doing this when
+# [issue 416](https://github.com/facebookresearch/vggt/issues/416) of VGGT is solved.
+sys.path.insert(
+    0, str(Path(__file__).resolve().parent.parent.parent.parent / "vggt" / "training")
+)
+
 from vggt.models.vggt import VGGT
 from vggt.utils.pose_enc import pose_encoding_to_extri_intri
 

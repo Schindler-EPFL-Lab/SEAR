@@ -2,8 +2,7 @@
 
 This project aims to estimate camera poses of RGB and Thermal images together.
 
-* [Arxiv paper](https://arxiv.org/abs/2603.18774)
-* [Checkpoints on HuggingFace](https://huggingface.co/MalcolmMielle/SEAR)
+[![Hugging Face](https://img.shields.io/badge/Hugging_Face-SEAR-orange?logo=huggingface)](https://huggingface.co/MalcolmMielle/SEAR) | [![arXiv](https://img.shields.io/badge/arXiv-2603.18774-red?logo=arxiv)](https://arxiv.org/abs/2603.18774)
 
 ![](images/sink.gif)
 ![](images/laptop.gif)
@@ -26,10 +25,6 @@ Install with uv:
 uv sync --all-extras
 ```
 
-Add `sys.path.append("./vggt/training")` to your scripts.
-
-You can stop doing this when [issue 416](https://github.com/facebookresearch/vggt/issues/416) of VGGT is solved.
-
 ## Train the model
 
 Install VGGT checkpoint [`VGGT-1B`](https://huggingface.co/facebook/VGGT-1B).
@@ -44,7 +39,7 @@ Ablation studies can run by using the other aggregator-types found in `sear/abla
 
 Models can be evaluated after training with `sear/scripts/eval/ablation_vggt.py`.
 
-To run the evaluation see the tutorials for [camera pose and point cloud](docs/Evaluation/Main.md), [relative camera pose from two views](docs/evaluation/Pairs.md) and [dependence on thermal ratio](docs/Evaluation/ThermalRatio.md).
+To run the evaluation see the tutorials for [camera pose and point cloud](docs/evaluation/Main.md), [relative camera pose from two views](docs/evaluation/Pairs.md) and [dependence on thermal ratio](docs/evaluation/ThermalRatio.md).
 
 ## Training Data
 

@@ -30,6 +30,7 @@ The script supports different aggregator types that control how LoRA is applied:
 """
 
 import logging
+import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -41,6 +42,12 @@ from dataclasses_reverse_cli.reverse_cli import ReverseCli
 from lightning import Trainer
 from lightning.pytorch.callbacks import DeviceStatsMonitor, ModelCheckpoint
 from lightning.pytorch.loggers import CSVLogger
+
+# You can stop doing this when
+# [issue 416](https://github.com/facebookresearch/vggt/issues/416) of VGGT is solved.
+sys.path.insert(
+    0, str(Path(__file__).resolve().parent.parent.parent / "vggt" / "training")
+)
 
 from sear.augment.geometric import GeometricTransformConfig
 from sear.augment.rgb import RGBTransformFactory

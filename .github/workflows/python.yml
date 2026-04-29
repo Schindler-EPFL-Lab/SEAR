@@ -9,24 +9,23 @@ jobs:
   build:
     name: Python Build
     if: github.event_name == 'workflow_dispatch' || github.event.label.name == 'trigger_pipeline'
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 1
 
-      - uses: https://code.forgejo.org/actions/setup-node@v6
+      - uses: actions/setup-node@v6
         with:
           node-version: 22
 
       - name: Install uv
-        uses: https://github.com/astral-sh/setup-uv@v6
+        uses: astral-sh/setup-uv@v6
         with:
           enable-cache: true
           prune-cache: false
           cache-dependency-glob: "uv.lock"
-          github-token: ${{ secrets.GITHUBAUTH }}
 
       - name: RUFF
         run: uvx ruff check

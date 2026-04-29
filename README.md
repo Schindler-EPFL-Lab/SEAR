@@ -12,38 +12,39 @@ This project aims to estimate camera poses of RGB and Thermal images together.
 
 ## Install
 
+Clone this repo and [VGGT](https://github.com/facebookresearch/vggt.git)
+
+```bash
+git clone https://github.com/Schindler-EPFL-Lab/SEAR.git
+cd SEAR
+git clone https://github.com/facebookresearch/vggt.git
+```
+
 Install with uv:
 
 ```bash
 uv sync --all-extras
 ```
 
-After cloning VGGT, change their pyproject.toml so it looks like:
-
-```toml
-# setuptools configuration
-[tool.setuptools.packages.find]
-where = ["."]
-include = ["vggt*", "training*"]
-```
-
-Or you can add `sys.path.append(".vvgt/training")` to your scripts.
+Add `sys.path.append("./vggt/training")` to your scripts.
 
 You can stop doing this when [issue 416](https://github.com/facebookresearch/vggt/issues/416) of VGGT is solved.
 
 ## Train the model
 
+Install VGGT checkpoint [`VGGT-1B`](https://huggingface.co/facebook/VGGT-1B).
+
 To train our model run this script:
 
 ```bash
-python sear/scripts/train_sear.py --aggregator.type CAMERA_TOKEN --dataset-mode NO_TRAJECTORY_SPECIFIED
+python sear/scripts/train_sear.py --thermal-vggt.vggt-path /path/to/vggt/weights.pth
 ```
 
 Ablation studies can run by using the other aggregator-types found in `sear/ablation_models/possible_aggregators.py`.
 
 Models can be evaluated after training with `sear/scripts/eval/ablation_vggt.py`.
 
-To run the evaluation see the tutorials for [camera pose and point cloud](docs/Evaluation/Main.md), [relative camera pose from two views](docs/evaluation/Pairs.md) and [dependence on thermal ratio](docs/Evaluation/ThermalRatio.md)
+To run the evaluation see the tutorials for [camera pose and point cloud](docs/Evaluation/Main.md), [relative camera pose from two views](docs/evaluation/Pairs.md) and [dependence on thermal ratio](docs/Evaluation/ThermalRatio.md).
 
 ## Training Data
 

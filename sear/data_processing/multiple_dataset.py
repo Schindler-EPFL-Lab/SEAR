@@ -39,9 +39,7 @@ class VGGTMultipleDataset(torch.utils.data.Dataset):
         rgb_transform: ImageTransform | None = None,
         thermal_transform: ImageTransform | None = None,
         geometric_transform: GeometricTransform | None = None,
-        scenes_per_dataset_path: Path = Path(
-            "./sear/configs/scenes_per_dataset.json"
-        ),
+        scenes_per_dataset_path: Path = Path("./sear/configs/scenes_per_dataset.json"),
         depth_eps: float = 1e-8,
         dtype: torch.dtype = torch.float32,
         scale_poses: bool = True,
@@ -553,9 +551,7 @@ class VGGTMultipleDataset(torch.utils.data.Dataset):
         geometric_transform_config: GeometricTransformConfig,
         train_scenes_names: list[str],
         eval_scenes_names: list[str],
-        scenes_per_dataset_path: Path = Path(
-            "./sear/configs/scenes_per_dataset.json"
-        ),
+        scenes_per_dataset_path: Path = Path("./sear/configs/scenes_per_dataset.json"),
     ) -> tuple["VGGTMultipleDataset", "VGGTMultipleDataset"]:
         """
         Creates training and validation datasets from a directory of scene folders. The
@@ -621,9 +617,7 @@ class VGGTMultipleDataset(torch.utils.data.Dataset):
         rgb_transform_factory: RGBTransformFactory,
         thermal_transform_factory: ThermalTransformFactory,
         geometric_transform_config: GeometricTransformConfig,
-        scenes_per_dataset_path: Path = Path(
-            "./sear/configs/scenes_per_dataset.json"
-        ),
+        scenes_per_dataset_path: Path | None = None,
     ) -> tuple["VGGTMultipleDataset", "VGGTMultipleDataset"]:
         """
         Creates training and validation datasets from a directory of scene folders. The
@@ -640,6 +634,12 @@ class VGGTMultipleDataset(torch.utils.data.Dataset):
 
         :return: a tuple of train and eval datasets
         """
+
+        if scenes_per_dataset_path is None:
+            scenes_per_dataset_path = Path(
+                Path(__file__).resolve().parent.parent,
+                "configs/scenes_per_dataset.json",
+            )
 
         all_scenes_names = scenes_root_path.iterdir()
         all_scenes_names = sorted([el.name for el in all_scenes_names if el.is_dir()])
@@ -672,12 +672,8 @@ class VGGTMultipleDataset(torch.utils.data.Dataset):
         rgb_transform_factory: RGBTransformFactory,
         thermal_transform_factory: ThermalTransformFactory,
         geometric_transform_config: GeometricTransformConfig,
-        scenes_per_dataset_path: Path = Path(
-            "./sear/configs/scenes_per_dataset.json"
-        ),
-        train_test_split_path: Path = Path(
-            "./sear/configs/train_test_split.json"
-        ),
+        scenes_per_dataset_path: Path | None = None,
+        train_test_split_path: Path | None = None,
     ) -> tuple["VGGTMultipleDataset", "VGGTMultipleDataset"]:
         """
         Creates training and validation datasets from a directory of scene folders. The
@@ -694,6 +690,15 @@ class VGGTMultipleDataset(torch.utils.data.Dataset):
 
         :return: a tuple of train and eval datasets
         """
+        if scenes_per_dataset_path is None:
+            scenes_per_dataset_path = Path(
+                Path(__file__).resolve().parent.parent,
+                "configs/scenes_per_dataset.json",
+            )
+        if train_test_split_path is None:
+            train_test_split_path = Path(
+                Path(__file__).resolve().parent.parent, "configs/train_test_split.json"
+            )
 
         with open(train_test_split_path) as f:
             train_test_split = json.load(f)
@@ -722,9 +727,7 @@ class VGGTMultipleDataset(torch.utils.data.Dataset):
         seed: int,
         train_scenes_names: list[str],
         eval_scenes_names: list[str],
-        scenes_per_dataset_path: Path = Path(
-            "./sear/configs/scenes_per_dataset.json"
-        ),
+        scenes_per_dataset_path: Path | None = None,
     ) -> tuple["VGGTMultipleDataset", "VGGTMultipleDataset"]:
         """
         Creates training and validation datasets with no augmentations with datasets not
@@ -739,6 +742,12 @@ class VGGTMultipleDataset(torch.utils.data.Dataset):
 
         :return: a tuple of train and eval datasets
         """
+        if scenes_per_dataset_path is None:
+            scenes_per_dataset_path = Path(
+                Path(__file__).resolve().parent.parent,
+                "configs/scenes_per_dataset.json",
+            )
+
         max_sequence_length = cls._get_max_sequence_length(
             scenes_root_path=scenes_root_path,
             scenes_names=train_scenes_names + eval_scenes_names,
@@ -786,9 +795,7 @@ class VGGTMultipleDataset(torch.utils.data.Dataset):
         val_split_ratio: float,
         depth_eps: float,
         seed: int,
-        scenes_per_dataset_path: Path = Path(
-            "./sear/configs/scenes_per_dataset.json"
-        ),
+        scenes_per_dataset_path: Path | None = None,
     ) -> tuple["VGGTMultipleDataset", "VGGTMultipleDataset"]:
         """
         Creates training and validation datasets with no augmentations with datasets not
@@ -801,6 +808,11 @@ class VGGTMultipleDataset(torch.utils.data.Dataset):
 
         :return: a tuple of train and eval datasets
         """
+        if scenes_per_dataset_path is None:
+            scenes_per_dataset_path = Path(
+                Path(__file__).resolve().parent.parent,
+                "configs/scenes_per_dataset.json",
+            )
 
         all_scenes_names = scenes_root_path.iterdir()
         all_scenes_names = sorted([el.name for el in all_scenes_names if el.is_dir()])
@@ -826,12 +838,8 @@ class VGGTMultipleDataset(torch.utils.data.Dataset):
         scenes_root_path: Path,
         depth_eps: float,
         seed: int,
-        scenes_per_dataset_path: Path = Path(
-            "./sear/configs/scenes_per_dataset.json"
-        ),
-        train_test_split_path: Path = Path(
-            "./sear/configs/train_test_split.json"
-        ),
+        scenes_per_dataset_path: Path | None = None,
+        train_test_split_path: Path | None = None,
     ) -> tuple["VGGTMultipleDataset", "VGGTMultipleDataset"]:
         """
         Creates training and validation datasets with no augmentations with datasets not
@@ -844,6 +852,19 @@ class VGGTMultipleDataset(torch.utils.data.Dataset):
 
         :return: a tuple of train and eval datasets
         """
+
+        if scenes_per_dataset_path is None:
+            scenes_per_dataset_path = Path(
+                Path(__file__).resolve().parent.parent,
+                "configs/scenes_per_dataset.json",
+            )
+
+        if train_test_split_path is None:
+            train_test_split_path = Path(
+                Path(__file__).resolve().parent.parent,
+                "configs/train_test_split.json",
+            )
+
         with open(train_test_split_path) as f:
             train_test_split = json.load(f)
 

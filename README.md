@@ -2,12 +2,12 @@
 
 This project aims to estimate camera poses of RGB and Thermal images together.
 
-[![Hugging Face](https://img.shields.io/badge/Hugging_Face-SEAR-orange?logo=huggingface)](https://huggingface.co/MalcolmMielle/SEAR) | [![arXiv](https://img.shields.io/badge/arXiv-2603.18774-red?logo=arxiv)](https://arxiv.org/abs/2603.18774)
+[![Hugging Face](https://img.shields.io/badge/Hugging_Face-SEAR-orange?logo=huggingface)](https://huggingface.co/MalcolmMielle/SEAR) | [![arXiv](https://img.shields.io/badge/arXiv-2603.18774-red?logo=arxiv)](https://arxiv.org/abs/2603.18774) | [![ECCV2026](https://img.shields.io/badge/ECCV-2026-green)](https://link.springer.com/chapter/10.1007/978-3-032-37135-5_30
+)
 
-![](images/sink.gif)
-![](images/laptop.gif)
-![](images/reflect-robot.gif)
-![](images/drone-bathroom.gif)
+<img src="images/sink.gif" alt="sink" width="48%"> <img src="images/laptop.gif" alt="laptop" width="48%">
+
+<img src="images/reflect-robot.gif" alt="reflect-robot" width="48%"> <img src="images/drone-bathroom.gif" alt="drone-bathroom" width="48%">
 
 ## Install
 
@@ -58,13 +58,12 @@ See details of the data processing in [Dataset documentation](docs/Dataset.md).
 ## Cite us
 
 ```bib
-@misc{skorokhodov2026searsimpleefficientadaptation,
-      title={SEAR: Simple and Efficient Adaptation of Visual Geometric Transformers for RGB+Thermal 3D Reconstruction},
-      author={Vsevolod Skorokhodov and Chenghao Xu and Shuo Sun and Olga Fink and Malcolm Mielle},
-      year={2026},
-      eprint={2603.18774},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV},
-      url={https://arxiv.org/abs/2603.18774},
+@inproceedings{skorokhodov2026sear,
+  title={SEAR: S imple and E fficient A daptation of Visual Geometric Transformers for Unpaired R GB-Thermal 3D Reconstruction},
+  author={Skorokhodov, Vsevolod and Xu, Chenghao and Sun, Shuo and Fink, Olga and Mielle, Malcolm},
+  booktitle={European Conference on Computer Vision},
+  pages={542--560},
+  year={2026},
+  organization={Springer}
 }
 ```

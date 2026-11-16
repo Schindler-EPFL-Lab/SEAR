@@ -1,5 +1,7 @@
 # SEAR: Simple and Efficient Adaptation of Visual Geometric Transformers for RGB+Thermal 3D Reconstruction
 
+**Try the live demo → [SEAR demo Space](https://huggingface.co/spaces/MalcolmMielle/sear-rgb-thermal-3d)** — upload an RGB set and a thermal set, get one aligned 3D scene + camera poses, no setup.
+
 This project aims to estimate camera poses of RGB and Thermal images together.
 
 [![Hugging Face](https://img.shields.io/badge/Hugging_Face-SEAR-orange?logo=huggingface)](https://huggingface.co/MalcolmMielle/SEAR) | [![arXiv](https://img.shields.io/badge/arXiv-2603.18774-red?logo=arxiv)](https://arxiv.org/abs/2603.18774) | [![ECCV2026](https://img.shields.io/badge/ECCV-2026-green)](https://link.springer.com/chapter/10.1007/978-3-032-37135-5_30

@@ -7,7 +7,7 @@ import lightning as L
 import matplotlib.pyplot as plt
 import torch
 from dataclasses_reverse_cli.reverse_cli import ReverseCli
-from training.loss import MultitaskLoss
+from vggt.training.loss import MultitaskLoss
 from transformers import get_scheduler
 from vggt.utils.pose_enc import pose_encoding_to_extri_intri
 

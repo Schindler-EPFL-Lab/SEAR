@@ -6,7 +6,7 @@ import cv2
 import numpy as np
 import tyro
 from dataclasses_reverse_cli.reverse_cli import ReverseCli
-from training.data.dataset_util import depth_to_world_coords_points
+from vggt.training.data.dataset_util import depth_to_world_coords_points
 from vggt.utils.geometry import closed_form_inverse_se3
 
 from sear.data_processing.frame_info import FrameInfo

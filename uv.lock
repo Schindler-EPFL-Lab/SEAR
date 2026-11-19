@@ -1,26 +1,26 @@
 version = 1
-revision = 3
+revision = 5
 requires-python = ">=3.12"
 resolution-markers = [
     "python_full_version >= '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform == 'win32'",
-    "python_full_version < '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform == 'win32'",
     "python_full_version >= '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform == 'darwin'",
-    "python_full_version < '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform == 'darwin'",
     "python_full_version >= '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform == 'linux'",
-    "python_full_version < '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform == 'linux'",
     "python_full_version >= '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32'",
-    "python_full_version < '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32'",
     "python_full_version >= '3.14' and platform_machine == 'arm64' and sys_platform == 'darwin'",
-    "python_full_version < '3.14' and platform_machine == 'arm64' and sys_platform == 'darwin'",
     "python_full_version >= '3.14' and platform_machine == 'aarch64' and sys_platform == 'darwin'",
-    "python_full_version < '3.14' and platform_machine == 'aarch64' and sys_platform == 'darwin'",
     "python_full_version >= '3.14' and platform_machine == 'aarch64' and sys_platform == 'linux'",
-    "python_full_version < '3.14' and platform_machine == 'aarch64' and sys_platform == 'linux'",
     "python_full_version >= '3.14' and platform_machine == 'arm64' and sys_platform == 'linux'",
-    "python_full_version < '3.14' and platform_machine == 'arm64' and sys_platform == 'linux'",
     "(python_full_version >= '3.14' and platform_machine == 'aarch64' and sys_platform == 'win32') or (python_full_version >= '3.14' and platform_machine == 'arm64' and sys_platform == 'win32')",
     "(python_full_version >= '3.14' and platform_machine == 'aarch64' and sys_platform == 'emscripten') or (python_full_version >= '3.14' and platform_machine == 'arm64' and sys_platform == 'emscripten')",
     "(python_full_version >= '3.14' and platform_machine == 'aarch64' and sys_platform != 'darwin' and sys_platform != 'emscripten' and sys_platform != 'linux' and sys_platform != 'win32') or (python_full_version >= '3.14' and platform_machine == 'arm64' and sys_platform != 'darwin' and sys_platform != 'emscripten' and sys_platform != 'linux' and sys_platform != 'win32')",
+    "python_full_version < '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform == 'win32'",
+    "python_full_version < '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform == 'darwin'",
+    "python_full_version < '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform == 'linux'",
+    "python_full_version < '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32'",
+    "python_full_version < '3.14' and platform_machine == 'arm64' and sys_platform == 'darwin'",
+    "python_full_version < '3.14' and platform_machine == 'aarch64' and sys_platform == 'darwin'",
+    "python_full_version < '3.14' and platform_machine == 'aarch64' and sys_platform == 'linux'",
+    "python_full_version < '3.14' and platform_machine == 'arm64' and sys_platform == 'linux'",
     "(python_full_version < '3.14' and platform_machine == 'aarch64' and sys_platform == 'win32') or (python_full_version < '3.14' and platform_machine == 'arm64' and sys_platform == 'win32')",
     "(python_full_version < '3.14' and platform_machine == 'aarch64' and sys_platform == 'emscripten') or (python_full_version < '3.14' and platform_machine == 'arm64' and sys_platform == 'emscripten')",
     "(python_full_version < '3.14' and platform_machine == 'aarch64' and sys_platform != 'darwin' and sys_platform != 'emscripten' and sys_platform != 'linux' and sys_platform != 'win32') or (python_full_version < '3.14' and platform_machine == 'arm64' and sys_platform != 'darwin' and sys_platform != 'emscripten' and sys_platform != 'linux' and sys_platform != 'win32')",
@@ -795,7 +795,7 @@ name = "cuda-bindings"
 version = "13.2.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "cuda-pathfinder", marker = "sys_platform == 'linux'" },
+    { name = "cuda-pathfinder" },
 ]
 wheels = [
     { url = "https://files.pythonhosted.org/packages/52/c8/b2589d68acf7e3d63e2be330b84bc25712e97ed799affbca7edd7eae25d6/cuda_bindings-13.2.0-cp312-cp312-manylinux_2_24_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:e865447abfb83d6a98ad5130ed3c70b1fc295ae3eeee39fd07b4ddb0671b6788", size = 5722404, upload-time = "2026-03-11T00:12:44.041Z" },
@@ -826,37 +826,37 @@ wheels = [
 
 [package.optional-dependencies]
 cublas = [
-    { name = "nvidia-cublas", marker = "sys_platform == 'linux'" },
+    { name = "nvidia-cublas" },
 ]
 cudart = [
-    { name = "nvidia-cuda-runtime", marker = "sys_platform == 'linux'" },
+    { name = "nvidia-cuda-runtime" },
 ]
 cufft = [
-    { name = "nvidia-cufft", marker = "sys_platform == 'linux'" },
+    { name = "nvidia-cufft" },
 ]
 cufile = [
-    { name = "nvidia-cufile", marker = "sys_platform == 'linux'" },
+    { name = "nvidia-cufile" },
 ]
 cupti = [
-    { name = "nvidia-cuda-cupti", marker = "sys_platform == 'linux'" },
+    { name = "nvidia-cuda-cupti" },
 ]
 curand = [
-    { name = "nvidia-curand", marker = "sys_platform == 'linux'" },
+    { name = "nvidia-curand" },
 ]
 cusolver = [
-    { name = "nvidia-cusolver", marker = "sys_platform == 'linux'" },
+    { name = "nvidia-cusolver" },
 ]
 cusparse = [
-    { name = "nvidia-cusparse", marker = "sys_platform == 'linux'" },
+    { name = "nvidia-cusparse" },
 ]
 nvjitlink = [
-    { name = "nvidia-nvjitlink", marker = "sys_platform == 'linux'" },
+    { name = "nvidia-nvjitlink" },
 ]
 nvrtc = [
-    { name = "nvidia-cuda-nvrtc", marker = "sys_platform == 'linux'" },
+    { name = "nvidia-cuda-nvrtc" },
 ]
 nvtx = [
-    { name = "nvidia-nvtx", marker = "sys_platform == 'linux'" },
+    { name = "nvidia-nvtx" },
 ]
 
 [[package]]
@@ -1048,7 +1048,7 @@ name = "embreex"
 version = "2.17.7.post7"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "numpy", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
+    { name = "numpy" },
 ]
 wheels = [
     { url = "https://files.pythonhosted.org/packages/a7/01/ed299e72f62731be03c383ee4e13191d28afd7e73a8a30012e5b12c61916/embreex-2.17.7.post7-cp312-cp312-macosx_10_13_x86_64.whl", hash = "sha256:b10cddba4cc294122e5a76c6df8b042fcb291b352220ecc72b2d9559fc45c48b", size = 10738000, upload-time = "2025-10-22T20:07:29.599Z" },
@@ -1210,8 +1210,8 @@ name = "fpsample"
 version = "1.0.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "numpy", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "pybind11", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
+    { name = "numpy" },
+    { name = "pybind11" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/51/0d/c58b12e5dd6c0880b7f420d32af317e5817c54369019c0a04eb350b47ea2/fpsample-1.0.2.tar.gz", hash = "sha256:5e25f97c03412d243767fb9e47f7b6d6c736c7ce1e9d51918894e3fd327749f2", size = 40361, upload-time = "2025-12-20T12:30:21.859Z" }
 
@@ -1500,11 +1500,11 @@ name = "gsplat"
 version = "1.4.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "jaxtyping", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "ninja", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "numpy", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "rich", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "torch", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
+    { name = "jaxtyping" },
+    { name = "ninja" },
+    { name = "numpy" },
+    { name = "rich" },
+    { name = "torch" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/58/a9/f2a40a8fbe6f53ed49934cbfe44045d4cb131ae514a2b113458bcaf567b0/gsplat-1.4.0.tar.gz", hash = "sha256:8aa81a785e0daf3ed60d0b9930a56c0f337280e6989351d1f1b74e21cf190160", size = 105355, upload-time = "2024-09-27T06:55:43.813Z" }
 wheels = [
@@ -1516,7 +1516,7 @@ name = "gunicorn"
 version = "25.2.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "packaging", marker = "sys_platform != 'win32'" },
+    { name = "packaging" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/dd/13/dd3f8e40ea3ee907a6cbf3d1f1f81afcc3ecd0087d313baabfe95372f15c/gunicorn-25.2.0.tar.gz", hash = "sha256:10bd7adb36d44945d97d0a1fdf9a0fb086ae9c7b39e56b4dece8555a6bf4a09c", size = 632709, upload-time = "2026-03-24T22:49:54.433Z" }
 wheels = [
@@ -2365,7 +2365,7 @@ name = "manifold3d"
 version = "3.4.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "numpy", marker = "python_full_version < '3.14'" },
+    { name = "numpy" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/b0/fd/4dfc246e076e3912c45a821764f4de8b6c8117fa36fc67f8e44bf9dfe59b/manifold3d-3.4.1.tar.gz", hash = "sha256:b517927e2c15dc52169fff0cd12e1949eceb4ca49f3a5b8c0568b1116a561ab1", size = 269275, upload-time = "2026-03-24T06:22:40.062Z" }
 wheels = [
@@ -2913,7 +2913,7 @@ name = "multiprocess"
 version = "0.70.19"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "dill", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
+    { name = "dill" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/a2/f2/e783ac7f2aeeed14e9e12801f22529cc7e6b7ab80928d6dcce4e9f00922d/multiprocess-0.70.19.tar.gz", hash = "sha256:952021e0e6c55a4a9fe4cd787895b86e239a40e76802a789d6305398d3975897", size = 2079989, upload-time = "2026-01-19T06:47:39.744Z" }
 wheels = [
@@ -3008,63 +3008,63 @@ version = "0.3.4"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version >= '3.14' and platform_machine == 'arm64' and sys_platform == 'darwin'",
-    "python_full_version < '3.14' and platform_machine == 'arm64' and sys_platform == 'darwin'",
     "python_full_version >= '3.14' and platform_machine == 'aarch64' and sys_platform == 'darwin'",
-    "python_full_version < '3.14' and platform_machine == 'aarch64' and sys_platform == 'darwin'",
     "python_full_version >= '3.14' and platform_machine == 'aarch64' and sys_platform == 'linux'",
-    "python_full_version < '3.14' and platform_machine == 'aarch64' and sys_platform == 'linux'",
     "python_full_version >= '3.14' and platform_machine == 'arm64' and sys_platform == 'linux'",
-    "python_full_version < '3.14' and platform_machine == 'arm64' and sys_platform == 'linux'",
     "(python_full_version >= '3.14' and platform_machine == 'aarch64' and sys_platform == 'win32') or (python_full_version >= '3.14' and platform_machine == 'arm64' and sys_platform == 'win32')",
     "(python_full_version >= '3.14' and platform_machine == 'aarch64' and sys_platform == 'emscripten') or (python_full_version >= '3.14' and platform_machine == 'arm64' and sys_platform == 'emscripten')",
     "(python_full_version >= '3.14' and platform_machine == 'aarch64' and sys_platform != 'darwin' and sys_platform != 'emscripten' and sys_platform != 'linux' and sys_platform != 'win32') or (python_full_version >= '3.14' and platform_machine == 'arm64' and sys_platform != 'darwin' and sys_platform != 'emscripten' and sys_platform != 'linux' and sys_platform != 'win32')",
+    "python_full_version < '3.14' and platform_machine == 'arm64' and sys_platform == 'darwin'",
+    "python_full_version < '3.14' and platform_machine == 'aarch64' and sys_platform == 'darwin'",
+    "python_full_version < '3.14' and platform_machine == 'aarch64' and sys_platform == 'linux'",
+    "python_full_version < '3.14' and platform_machine == 'arm64' and sys_platform == 'linux'",
     "(python_full_version < '3.14' and platform_machine == 'aarch64' and sys_platform == 'win32') or (python_full_version < '3.14' and platform_machine == 'arm64' and sys_platform == 'win32')",
     "(python_full_version < '3.14' and platform_machine == 'aarch64' and sys_platform == 'emscripten') or (python_full_version < '3.14' and platform_machine == 'arm64' and sys_platform == 'emscripten')",
     "(python_full_version < '3.14' and platform_machine == 'aarch64' and sys_platform != 'darwin' and sys_platform != 'emscripten' and sys_platform != 'linux' and sys_platform != 'win32') or (python_full_version < '3.14' and platform_machine == 'arm64' and sys_platform != 'darwin' and sys_platform != 'emscripten' and sys_platform != 'linux' and sys_platform != 'win32')",
 ]
 dependencies = [
-    { name = "appdirs", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "av", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "comet-ml", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "cryptography", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "gdown", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "h5py", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "imageio", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "ipywidgets", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "jaxtyping", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "jupyterlab", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "matplotlib", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "mediapy", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "msgpack", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "msgpack-numpy", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "nerfacc", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "ninja", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "nuscenes-devkit", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "open3d", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "opencv-python", version = "4.6.0.66", source = { registry = "https://pypi.org/simple" }, marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "pillow", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "plotly", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "protobuf", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "pymeshlab", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "pyngrok", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "pyquaternion", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "python-socketio", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "rawpy", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "requests", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "rich", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "scikit-image", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "splines", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "tensorboard", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "timm", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "torch", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "torchmetrics", extra = ["image"], marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "torchvision", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "trimesh", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "typing-extensions", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "tyro", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "viser", version = "0.1.3", source = { registry = "https://pypi.org/simple" }, marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "wandb", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "xatlas", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
+    { name = "appdirs" },
+    { name = "av" },
+    { name = "comet-ml" },
+    { name = "cryptography" },
+    { name = "gdown" },
+    { name = "h5py" },
+    { name = "imageio" },
+    { name = "ipywidgets" },
+    { name = "jaxtyping" },
+    { name = "jupyterlab" },
+    { name = "matplotlib" },
+    { name = "mediapy" },
+    { name = "msgpack" },
+    { name = "msgpack-numpy" },
+    { name = "nerfacc" },
+    { name = "ninja" },
+    { name = "nuscenes-devkit" },
+    { name = "open3d" },
+    { name = "opencv-python", version = "4.6.0.66", source = { registry = "https://pypi.org/simple" } },
+    { name = "pillow" },
+    { name = "plotly" },
+    { name = "protobuf" },
+    { name = "pymeshlab" },
+    { name = "pyngrok" },
+    { name = "pyquaternion" },
+    { name = "python-socketio" },
+    { name = "rawpy" },
+    { name = "requests" },
+    { name = "rich" },
+    { name = "scikit-image" },
+    { name = "splines" },
+    { name = "tensorboard" },
+    { name = "timm" },
+    { name = "torch" },
+    { name = "torchmetrics", extra = ["image"] },
+    { name = "torchvision" },
+    { name = "trimesh" },
+    { name = "typing-extensions" },
+    { name = "tyro" },
+    { name = "viser", version = "0.1.3", source = { registry = "https://pypi.org/simple" } },
+    { name = "wandb" },
+    { name = "xatlas" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/de/19/418fa6738424c042d329a8945a977ccea1e8fe85dafd2d442acab9ff0c0e/nerfstudio-0.3.4.tar.gz", hash = "sha256:fdde90993eaadf2a9279187a604407c791d491f0c211d9e6cefb30db2a73deac", size = 341613, upload-time = "2023-09-22T01:39:55.411Z" }
 wheels = [
@@ -3077,63 +3077,63 @@ version = "1.1.5"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version >= '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform == 'win32'",
-    "python_full_version < '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform == 'win32'",
     "python_full_version >= '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform == 'darwin'",
-    "python_full_version < '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform == 'darwin'",
     "python_full_version >= '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform == 'linux'",
-    "python_full_version < '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform == 'linux'",
     "python_full_version >= '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32'",
+    "python_full_version < '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform == 'win32'",
+    "python_full_version < '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform == 'darwin'",
+    "python_full_version < '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform == 'linux'",
     "python_full_version < '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32'",
 ]
 dependencies = [
-    { name = "appdirs", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "av", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "comet-ml", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "cryptography", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "fpsample", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "gdown", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "gsplat", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "h5py", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "imageio", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "ipywidgets", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "jaxtyping", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "jupyterlab", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "matplotlib", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "mediapy", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "msgpack", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "msgpack-numpy", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "nerfacc", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "ninja", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "nuscenes-devkit", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "open3d", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "opencv-python-headless", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "packaging", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "pathos", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "pillow", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "plotly", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "protobuf", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "pymeshlab", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "pyngrok", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "pyquaternion", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "python-socketio", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "pytorch-msssim", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "rawpy", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "requests", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "rich", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "scikit-image", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "splines", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "tensorboard", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "tensorly", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "timm", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "torch", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "torchmetrics", extra = ["image"], marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "torchvision", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "trimesh", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "typing-extensions", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "tyro", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "viser", version = "0.2.7", source = { registry = "https://pypi.org/simple" }, marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "wandb", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "xatlas", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
+    { name = "appdirs" },
+    { name = "av" },
+    { name = "comet-ml" },
+    { name = "cryptography" },
+    { name = "fpsample" },
+    { name = "gdown" },
+    { name = "gsplat" },
+    { name = "h5py" },
+    { name = "imageio" },
+    { name = "ipywidgets" },
+    { name = "jaxtyping" },
+    { name = "jupyterlab" },
+    { name = "matplotlib" },
+    { name = "mediapy" },
+    { name = "msgpack" },
+    { name = "msgpack-numpy" },
+    { name = "nerfacc" },
+    { name = "ninja" },
+    { name = "nuscenes-devkit" },
+    { name = "open3d" },
+    { name = "opencv-python-headless" },
+    { name = "packaging" },
+    { name = "pathos" },
+    { name = "pillow" },
+    { name = "plotly" },
+    { name = "protobuf" },
+    { name = "pymeshlab" },
+    { name = "pyngrok" },
+    { name = "pyquaternion" },
+    { name = "python-socketio" },
+    { name = "pytorch-msssim" },
+    { name = "rawpy" },
+    { name = "requests" },
+    { name = "rich" },
+    { name = "scikit-image" },
+    { name = "splines" },
+    { name = "tensorboard" },
+    { name = "tensorly" },
+    { name = "timm" },
+    { name = "torch" },
+    { name = "torchmetrics", extra = ["image"] },
+    { name = "torchvision" },
+    { name = "trimesh" },
+    { name = "typing-extensions" },
+    { name = "tyro" },
+    { name = "viser", version = "0.2.7", source = { registry = "https://pypi.org/simple" } },
+    { name = "wandb" },
+    { name = "xatlas" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/3a/28/715d6db9ace41edf493a544504cca4872547844e7cd0f2f6cfe0dbd3d411/nerfstudio-1.1.5.tar.gz", hash = "sha256:c3d8fd27208565e2031e4b0c89f82eb78199207d5194755f5b6c8f41e02f4cf9", size = 413109, upload-time = "2024-11-11T21:22:46.729Z" }
 wheels = [
@@ -3286,7 +3286,7 @@ name = "nvidia-cudnn-cu13"
 version = "9.19.0.56"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "nvidia-cublas", marker = "sys_platform == 'linux'" },
+    { name = "nvidia-cublas" },
 ]
 wheels = [
     { url = "https://files.pythonhosted.org/packages/f1/84/26025437c1e6b61a707442184fa0c03d083b661adf3a3eecfd6d21677740/nvidia_cudnn_cu13-9.19.0.56-py3-none-manylinux_2_27_aarch64.whl", hash = "sha256:6ed29ffaee1176c612daf442e4dd6cfeb6a0caa43ddcbeb59da94953030b1be4", size = 433781201, upload-time = "2026-02-03T20:40:53.805Z" },
@@ -3298,7 +3298,7 @@ name = "nvidia-cufft"
 version = "12.0.0.61"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "nvidia-nvjitlink", marker = "sys_platform == 'linux'" },
+    { name = "nvidia-nvjitlink" },
 ]
 wheels = [
     { url = "https://files.pythonhosted.org/packages/8b/ae/f417a75c0259e85c1d2f83ca4e960289a5f814ed0cea74d18c353d3e989d/nvidia_cufft-12.0.0.61-py3-none-manylinux2014_aarch64.manylinux_2_17_aarch64.whl", hash = "sha256:2708c852ef8cd89d1d2068bdbece0aa188813a0c934db3779b9b1faa8442e5f5", size = 214053554, upload-time = "2025-09-04T08:31:38.196Z" },
@@ -3328,9 +3328,9 @@ name = "nvidia-cusolver"
 version = "12.0.4.66"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "nvidia-cublas", marker = "sys_platform == 'linux'" },
-    { name = "nvidia-cusparse", marker = "sys_platform == 'linux'" },
-    { name = "nvidia-nvjitlink", marker = "sys_platform == 'linux'" },
+    { name = "nvidia-cublas" },
+    { name = "nvidia-cusparse" },
+    { name = "nvidia-nvjitlink" },
 ]
 wheels = [
     { url = "https://files.pythonhosted.org/packages/c8/c3/b30c9e935fc01e3da443ec0116ed1b2a009bb867f5324d3f2d7e533e776b/nvidia_cusolver-12.0.4.66-py3-none-manylinux_2_27_aarch64.whl", hash = "sha256:02c2457eaa9e39de20f880f4bd8820e6a1cfb9f9a34f820eb12a155aa5bc92d2", size = 223467760, upload-time = "2025-09-04T08:33:04.222Z" },
@@ -3342,7 +3342,7 @@ name = "nvidia-cusparse"
 version = "12.6.3.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "nvidia-nvjitlink", marker = "sys_platform == 'linux'" },
+    { name = "nvidia-nvjitlink" },
 ]
 wheels = [
     { url = "https://files.pythonhosted.org/packages/f8/94/5c26f33738ae35276672f12615a64bd008ed5be6d1ebcb23579285d960a9/nvidia_cusparse-12.6.3.3-py3-none-manylinux2014_aarch64.manylinux_2_17_aarch64.whl", hash = "sha256:80bcc4662f23f1054ee334a15c72b8940402975e0eab63178fc7e670aa59472c", size = 162155568, upload-time = "2025-09-04T08:33:42.864Z" },
@@ -3426,26 +3426,27 @@ version = "4.6.0.66"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version >= '3.14' and platform_machine == 'arm64' and sys_platform == 'darwin'",
-    "python_full_version < '3.14' and platform_machine == 'arm64' and sys_platform == 'darwin'",
     "python_full_version >= '3.14' and platform_machine == 'aarch64' and sys_platform == 'darwin'",
-    "python_full_version < '3.14' and platform_machine == 'aarch64' and sys_platform == 'darwin'",
     "python_full_version >= '3.14' and platform_machine == 'aarch64' and sys_platform == 'linux'",
-    "python_full_version < '3.14' and platform_machine == 'aarch64' and sys_platform == 'linux'",
     "python_full_version >= '3.14' and platform_machine == 'arm64' and sys_platform == 'linux'",
-    "python_full_version < '3.14' and platform_machine == 'arm64' and sys_platform == 'linux'",
     "(python_full_version >= '3.14' and platform_machine == 'aarch64' and sys_platform == 'win32') or (python_full_version >= '3.14' and platform_machine == 'arm64' and sys_platform == 'win32')",
     "(python_full_version >= '3.14' and platform_machine == 'aarch64' and sys_platform == 'emscripten') or (python_full_version >= '3.14' and platform_machine == 'arm64' and sys_platform == 'emscripten')",
     "(python_full_version >= '3.14' and platform_machine == 'aarch64' and sys_platform != 'darwin' and sys_platform != 'emscripten' and sys_platform != 'linux' and sys_platform != 'win32') or (python_full_version >= '3.14' and platform_machine == 'arm64' and sys_platform != 'darwin' and sys_platform != 'emscripten' and sys_platform != 'linux' and sys_platform != 'win32')",
+    "python_full_version < '3.14' and platform_machine == 'arm64' and sys_platform == 'darwin'",
+    "python_full_version < '3.14' and platform_machine == 'aarch64' and sys_platform == 'darwin'",
+    "python_full_version < '3.14' and platform_machine == 'aarch64' and sys_platform == 'linux'",
+    "python_full_version < '3.14' and platform_machine == 'arm64' and sys_platform == 'linux'",
     "(python_full_version < '3.14' and platform_machine == 'aarch64' and sys_platform == 'win32') or (python_full_version < '3.14' and platform_machine == 'arm64' and sys_platform == 'win32')",
     "(python_full_version < '3.14' and platform_machine == 'aarch64' and sys_platform == 'emscripten') or (python_full_version < '3.14' and platform_machine == 'arm64' and sys_platform == 'emscripten')",
     "(python_full_version < '3.14' and platform_machine == 'aarch64' and sys_platform != 'darwin' and sys_platform != 'emscripten' and sys_platform != 'linux' and sys_platform != 'win32') or (python_full_version < '3.14' and platform_machine == 'arm64' and sys_platform != 'darwin' and sys_platform != 'emscripten' and sys_platform != 'linux' and sys_platform != 'win32')",
 ]
 dependencies = [
-    { name = "numpy", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
+    { name = "numpy" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/7a/1c/e57fe138615c29b8d1442009057dd420c58d4773cb16112e914c9e7b47d8/opencv-python-4.6.0.66.tar.gz", hash = "sha256:c5bfae41ad4031e66bb10ec4a0a2ffd3e514d092652781e8b1ac98d1b59f1158", size = 90296371, upload-time = "2022-06-08T09:28:40.694Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/12/5d/1527327b9f7ea13bef31377f8bf399f03dc5f4f1c9f1fb69bc56b6e24cd4/opencv_python-4.6.0.66-cp36-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:5af8ba35a4fcb8913ffb86e92403e9a656a4bff4a645d196987468f0f8947875", size = 39541279, upload-time = "2022-06-08T07:57:34.854Z" },
+    { url = "https://files.pythonhosted.org/packages/cf/09/b24c266cd61ddeed101b90c92a26f54d060b06f4a1b102eb891576d6e9e2/opencv_python-4.6.0.66-cp36-abi3-win_amd64.whl", hash = "sha256:0dc82a3d8630c099d2f3ac1b1aabee164e8188db54a786abb7a4e27eba309440", size = 35574793, upload-time = "2022-06-08T08:00:14.489Z" },
     { url = "https://files.pythonhosted.org/packages/c6/00/858e894a2127b3a1b5479812b1bd3669bca64175dff4fc7c778e0a6ee565/opencv_python-4.6.0.66-cp37-abi3-macosx_11_0_arm64.whl", hash = "sha256:6e32af22e3202748bd233ed8f538741876191863882eba44e332d1a34993165b", size = 30020272, upload-time = "2022-06-08T07:58:16.165Z" },
 ]
 
@@ -3455,16 +3456,16 @@ version = "4.11.0.86"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version >= '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform == 'win32'",
-    "python_full_version < '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform == 'win32'",
     "python_full_version >= '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform == 'darwin'",
-    "python_full_version < '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform == 'darwin'",
     "python_full_version >= '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform == 'linux'",
-    "python_full_version < '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform == 'linux'",
     "python_full_version >= '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32'",
+    "python_full_version < '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform == 'win32'",
+    "python_full_version < '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform == 'darwin'",
+    "python_full_version < '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform == 'linux'",
     "python_full_version < '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32'",
 ]
 dependencies = [
-    { name = "numpy", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
+    { name = "numpy" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/17/06/68c27a523103dad5837dc5b87e71285280c4f098c60e4fe8a8db6486ab09/opencv-python-4.11.0.86.tar.gz", hash = "sha256:03d60ccae62304860d232272e4a4fda93c39d595780cb40b161b310244b736a4", size = 95171956, upload-time = "2025-01-16T13:52:24.737Z" }
 wheels = [
@@ -3633,10 +3634,10 @@ name = "pathos"
 version = "0.3.5"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "dill", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "multiprocess", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "pox", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "ppft", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
+    { name = "dill" },
+    { name = "multiprocess" },
+    { name = "pox" },
+    { name = "ppft" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/32/37/0c730979d3890f8096a86af2683fac74edd4d15cb037391098dca70dcb1d/pathos-0.3.5.tar.gz", hash = "sha256:8fe041b8545c5d3880a038f866022bdebf935e5cf68f56ed3407cb7e65193a61", size = 166975, upload-time = "2026-01-20T00:06:57.848Z" }
 wheels = [
@@ -3669,7 +3670,7 @@ name = "pexpect"
 version = "4.9.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "ptyprocess", marker = "(platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform == 'emscripten') or (sys_platform != 'emscripten' and sys_platform != 'win32')" },
+    { name = "ptyprocess" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/42/92/cc564bf6381ff43ce1f4d06852fc19a2f11d180f23dc32d9588bee2f149d/pexpect-4.9.0.tar.gz", hash = "sha256:ee7d41123f3c9911050ea2c2dac107568dc43b2d3b0c7557a33212c398ead30f", size = 166450, upload-time = "2023-11-25T09:07:26.339Z" }
 wheels = [
@@ -3772,7 +3773,7 @@ name = "plyfile"
 version = "1.1.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "numpy", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
+    { name = "numpy" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/78/d8/f68ec9a54568236ba4c00fc0b002f74d2a559841c1fce86ab356599da032/plyfile-1.1.3.tar.gz", hash = "sha256:1c37720cb0470b762cec2dfef573ee7996a616c359c0ec34fdd766ace3ea0634", size = 36163, upload-time = "2025-10-22T01:58:40.06Z" }
 wheels = [
@@ -4232,7 +4233,9 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/2c/ba/a4bc465d36f6aafbff89da1bf67bcc6a97475b1d2300a74a778dcb293cef/pyliblzfse-0.4.1.tar.gz", hash = "sha256:bb0b899b3830c02fdf3dbde48ea59611833f366fef836e5c32cf8145134b7d3d", size = 47666, upload-time = "2020-07-09T02:50:17.52Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/e0/62/f7e7a5b3c38759410a98e875239f413d472dd29a68c02e9efbeb427f6cdf/pyliblzfse-0.4.1-cp312-cp312-macosx_10_13_universal2.whl", hash = "sha256:c655027b34156cd96340a344b94d90584de67e5b70327cd47aeff69e6d3525fa", size = 40952, upload-time = "2025-05-03T08:53:30.608Z" },
+    { url = "https://files.pythonhosted.org/packages/75/fb/b76a73037e4d7c068a6f3aeebaf9742c19eecdaedde26891a80dc7932285/pyliblzfse-0.4.1-cp312-cp312-win_amd64.whl", hash = "sha256:01a5971e95cddac54c2a1e5783625a510d77a319ab537902ad4aeaade4bbe2ee", size = 22959, upload-time = "2025-05-03T08:53:32.054Z" },
     { url = "https://files.pythonhosted.org/packages/ca/a2/f7bb1315b78d4d2e246a48ab6db44d435a110115eeffcfebec59c8fc7525/pyliblzfse-0.4.1-cp313-cp313-macosx_10_13_universal2.whl", hash = "sha256:0b5755b005af21552d8050685f2ebb5316685bc771fb9acabc950e5ffc1ee694", size = 40960, upload-time = "2025-05-03T08:53:33.235Z" },
+    { url = "https://files.pythonhosted.org/packages/48/3b/e4c5e981c6679eac34b2e39e506e568e611bdbbd9d78877bb64b4d37bf0b/pyliblzfse-0.4.1-cp313-cp313-win_amd64.whl", hash = "sha256:e971ba2720b7a143f82bb47cd19f7efa5ccab84d9b770cef1acbcc4676380223", size = 22964, upload-time = "2025-05-03T08:53:34.179Z" },
 ]
 
 [[package]]
@@ -4378,7 +4381,7 @@ name = "pytorch-msssim"
 version = "1.0.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "torch", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
+    { name = "torch" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/69/43/fd181aef46e96ed025f5056efa1c45e63c93d377fbe7ea784a21ce058d03/pytorch_msssim-1.0.0.tar.gz", hash = "sha256:53273f03ce5c435f706f49feb5110a8afe90b2519484b0fe0df9639670106d0b", size = 10113, upload-time = "2023-05-25T17:15:57.146Z" }
 wheels = [
@@ -5036,36 +5039,62 @@ wheels = [
 ]
 
 [[package]]
-name = "sear"
+name = "sear-rgbt"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "dataclasses-reverse-cli" },
+    { name = "einops" },
+    { name = "huggingface-hub" },
     { name = "iopath" },
     { name = "lightning" },
     { name = "mlflow" },
+    { name = "numpy" },
+    { name = "open3d" },
+    { name = "opencv-python", version = "4.6.0.66", source = { registry = "https://pypi.org/simple" }, marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
+    { name = "opencv-python", version = "4.11.0.86", source = { registry = "https://pypi.org/simple" }, marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
+    { name = "peft" },
+    { name = "pillow" },
+    { name = "safetensors" },
+    { name = "torchvision" },
+    { name = "tyro" },
+]
+
+[package.optional-dependencies]
+baselines = [
     { name = "nerfstudio", version = "0.3.4", source = { registry = "https://pypi.org/simple" }, marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
     { name = "nerfstudio", version = "1.1.5", source = { registry = "https://pypi.org/simple" }, marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "open3d" },
-    { name = "peft" },
     { name = "romatch" },
-    { name = "torchvision" },
+]
+
+[package.dev-dependencies]
+dev = [
     { name = "vggt" },
 ]
 
 [package.metadata]
 requires-dist = [
     { name = "dataclasses-reverse-cli", specifier = ">=0.0.7" },
+    { name = "einops", specifier = ">=0.8.2" },
+    { name = "huggingface-hub", specifier = ">=1.8.0" },
     { name = "iopath", specifier = ">=0.1.10" },
     { name = "lightning", specifier = ">=2.5.0" },
     { name = "mlflow", specifier = ">=3.10.1" },
-    { name = "nerfstudio", specifier = ">=0.3.4" },
+    { name = "nerfstudio", marker = "extra == 'baselines'", specifier = ">=0.3.4" },
+    { name = "numpy", specifier = "<2" },
     { name = "open3d", specifier = ">=0.19.0" },
+    { name = "opencv-python", specifier = ">=4.6.0.66" },
     { name = "peft", specifier = ">=0.17.1" },
-    { name = "romatch", specifier = ">=0.1.2" },
+    { name = "pillow", specifier = ">=12.1.1" },
+    { name = "romatch", marker = "extra == 'baselines'", specifier = ">=0.1.2" },
+    { name = "safetensors", specifier = ">=0.7.0" },
     { name = "torchvision", specifier = ">=0.23.0" },
-    { name = "vggt", directory = "vggt" },
+    { name = "tyro", specifier = ">=1.0.10" },
 ]
+provides-extras = ["baselines"]
+
+[package.metadata.requires-dev]
+dev = [{ name = "vggt", directory = "vggt" }]
 
 [[package]]
 name = "semantic-version"
@@ -5473,8 +5502,8 @@ name = "tensorly"
 version = "0.9.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "numpy", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "scipy", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
+    { name = "numpy" },
+    { name = "scipy" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/57/39/76a859505dc5331cf43baba1fc011e85184c8ad0dbe01e6b01fe0f935ea2/tensorly-0.9.0.tar.gz", hash = "sha256:9b970dde47e2267a17b66a1444113e879c0bb77fb22f497a4207eb2b548ff792", size = 7327121, upload-time = "2024-11-12T14:54:20.504Z" }
 wheels = [
@@ -5980,36 +6009,36 @@ version = "0.1.3"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version >= '3.14' and platform_machine == 'arm64' and sys_platform == 'darwin'",
-    "python_full_version < '3.14' and platform_machine == 'arm64' and sys_platform == 'darwin'",
     "python_full_version >= '3.14' and platform_machine == 'aarch64' and sys_platform == 'darwin'",
-    "python_full_version < '3.14' and platform_machine == 'aarch64' and sys_platform == 'darwin'",
     "python_full_version >= '3.14' and platform_machine == 'aarch64' and sys_platform == 'linux'",
-    "python_full_version < '3.14' and platform_machine == 'aarch64' and sys_platform == 'linux'",
     "python_full_version >= '3.14' and platform_machine == 'arm64' and sys_platform == 'linux'",
-    "python_full_version < '3.14' and platform_machine == 'arm64' and sys_platform == 'linux'",
     "(python_full_version >= '3.14' and platform_machine == 'aarch64' and sys_platform == 'win32') or (python_full_version >= '3.14' and platform_machine == 'arm64' and sys_platform == 'win32')",
     "(python_full_version >= '3.14' and platform_machine == 'aarch64' and sys_platform == 'emscripten') or (python_full_version >= '3.14' and platform_machine == 'arm64' and sys_platform == 'emscripten')",
     "(python_full_version >= '3.14' and platform_machine == 'aarch64' and sys_platform != 'darwin' and sys_platform != 'emscripten' and sys_platform != 'linux' and sys_platform != 'win32') or (python_full_version >= '3.14' and platform_machine == 'arm64' and sys_platform != 'darwin' and sys_platform != 'emscripten' and sys_platform != 'linux' and sys_platform != 'win32')",
+    "python_full_version < '3.14' and platform_machine == 'arm64' and sys_platform == 'darwin'",
+    "python_full_version < '3.14' and platform_machine == 'aarch64' and sys_platform == 'darwin'",
+    "python_full_version < '3.14' and platform_machine == 'aarch64' and sys_platform == 'linux'",
+    "python_full_version < '3.14' and platform_machine == 'arm64' and sys_platform == 'linux'",
     "(python_full_version < '3.14' and platform_machine == 'aarch64' and sys_platform == 'win32') or (python_full_version < '3.14' and platform_machine == 'arm64' and sys_platform == 'win32')",
     "(python_full_version < '3.14' and platform_machine == 'aarch64' and sys_platform == 'emscripten') or (python_full_version < '3.14' and platform_machine == 'arm64' and sys_platform == 'emscripten')",
     "(python_full_version < '3.14' and platform_machine == 'aarch64' and sys_platform != 'darwin' and sys_platform != 'emscripten' and sys_platform != 'linux' and sys_platform != 'win32') or (python_full_version < '3.14' and platform_machine == 'arm64' and sys_platform != 'darwin' and sys_platform != 'emscripten' and sys_platform != 'linux' and sys_platform != 'win32')",
 ]
 dependencies = [
-    { name = "gdown", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "imageio", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "msgpack", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "nodeenv", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "numpy", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "psutil", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "pyliblzfse", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "rich", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "scikit-image", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "scipy", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "tqdm", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "trimesh", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "tyro", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "websockets", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
-    { name = "yourdfpy", marker = "platform_machine == 'aarch64' or platform_machine == 'arm64'" },
+    { name = "gdown" },
+    { name = "imageio" },
+    { name = "msgpack" },
+    { name = "nodeenv" },
+    { name = "numpy" },
+    { name = "psutil" },
+    { name = "pyliblzfse" },
+    { name = "rich" },
+    { name = "scikit-image" },
+    { name = "scipy" },
+    { name = "tqdm" },
+    { name = "trimesh" },
+    { name = "tyro" },
+    { name = "websockets" },
+    { name = "yourdfpy" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/93/c1/f7d0124e74e38220552859b0a73e44f394b8c3c53ccf64485cd0468b1816/viser-0.1.3.tar.gz", hash = "sha256:b6633a1ae82975e07f375eef2a53f41a795c98d7fc39081b5f9733b35ff70eaa", size = 2520634, upload-time = "2023-09-19T17:48:45.656Z" }
 wheels = [
@@ -6022,30 +6051,30 @@ version = "0.2.7"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version >= '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform == 'win32'",
-    "python_full_version < '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform == 'win32'",
     "python_full_version >= '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform == 'darwin'",
-    "python_full_version < '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform == 'darwin'",
     "python_full_version >= '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform == 'linux'",
-    "python_full_version < '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform == 'linux'",
     "python_full_version >= '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32'",
+    "python_full_version < '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform == 'win32'",
+    "python_full_version < '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform == 'darwin'",
+    "python_full_version < '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform == 'linux'",
     "python_full_version < '3.14' and platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32'",
 ]
 dependencies = [
-    { name = "imageio", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "msgspec", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "nodeenv", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "numpy", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "plyfile", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "psutil", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "pyliblzfse", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64' and sys_platform != 'win32'" },
-    { name = "rich", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "scikit-image", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "scipy", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "tqdm", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "trimesh", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "tyro", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "websockets", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
-    { name = "yourdfpy", marker = "platform_machine != 'aarch64' and platform_machine != 'arm64'" },
+    { name = "imageio" },
+    { name = "msgspec" },
+    { name = "nodeenv" },
+    { name = "numpy" },
+    { name = "plyfile" },
+    { name = "psutil" },
+    { name = "pyliblzfse", marker = "sys_platform != 'win32'" },
+    { name = "rich" },
+    { name = "scikit-image" },
+    { name = "scipy" },
+    { name = "tqdm" },
+    { name = "trimesh" },
+    { name = "tyro" },
+    { name = "websockets" },
+    { name = "yourdfpy" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/51/03/4ab0c43316c9eb6f4f4ab8fe4bc68ea3038b0750034d342f189b04252ef9/viser-0.2.7.tar.gz", hash = "sha256:6653b02e707c87f3aa7b6afbcfc4a4b96c14a699e60493f6cc8b254c1b3dc2df", size = 4532900, upload-time = "2024-08-29T20:41:23.645Z" }
 wheels = [

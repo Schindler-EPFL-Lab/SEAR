@@ -6,8 +6,8 @@ from typing import Sequence
 import numpy as np
 import torch
 from sklearn.model_selection import train_test_split
-from training.data.dataset_util import depth_to_world_coords_points
-from training.train_utils.normalization import (
+from vggt.training.data.dataset_util import depth_to_world_coords_points
+from vggt.training.train_utils.normalization import (
     normalize_camera_extrinsics_and_points_batch,
 )
 

@@ -27,6 +27,34 @@ Install with uv:
 uv sync --all-extras
 ```
 
+Or install the package from PyPI (the VGGT code is vendored in the wheel):
+
+```bash
+pip install sear-rgbt
+```
+
+## Model weights
+
+Download the SEAR checkpoints ([`MalcolmMielle/SEAR`](https://huggingface.co/MalcolmMielle/SEAR), files `SEAR_1.ckpt`–`SEAR_13.ckpt`) and the base [VGGT-1B](https://huggingface.co/facebook/VGGT-1B) weights:
+
+```bash
+hf download MalcolmMielle/SEAR --local-dir sear-weights
+hf download facebook/VGGT-1B --local-dir vggt-weights
+```
+
+Run inference on a scene made of an RGB set and a thermal set (with `SEAR_2.ckpt`):
+
+```bash
+python -m sear.scripts.inference.thermal_vggt \
+    --scenes_root_path /path/to/scene \
+    --store_results_folder /path/to/results \
+    --output_folder /path/to/cache \
+    --thermal-vggt.vggt-path /path/to/vggt/weights.pth \
+    --ckpt_path sear-weights/SEAR_2.ckpt
+```
+
+See the [evaluation docs](docs/evaluation/Main.md) for running the full benchmark.
+
 ## Train the model
 
 Install VGGT checkpoint [`VGGT-1B`](https://huggingface.co/facebook/VGGT-1B).

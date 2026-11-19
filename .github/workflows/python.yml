@@ -42,6 +42,7 @@ jobs:
         run: |
           apt-get update && apt install -y libgl1
           git clone https://github.com/facebookresearch/vggt.git && \
+          git -C vggt checkout 44b3afbd1869d8bde4894dd8ea1e293112dd5eba && \
           uv sync --frozen
 
       - name: Run sear tests

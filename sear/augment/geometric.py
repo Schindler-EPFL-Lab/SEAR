@@ -4,7 +4,7 @@ import numpy as np
 import numpy.typing as npt
 import torch
 from dataclasses_reverse_cli.reverse_cli import ReverseCli
-from training.data.dataset_util import (
+from vggt.training.data.dataset_util import (
     crop_image_depth_and_intrinsic_by_pp,
     resize_image_depth_and_intrinsic,
     rotate_90_degrees,

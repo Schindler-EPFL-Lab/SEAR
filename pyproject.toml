@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "sear-rgbt"
-version = "1.0.0"
+version = "1.0.1"
 description = "Estimate poses of rgb and thermal cameras"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -27,10 +27,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-baselines = [
-    "nerfstudio>=0.3.4",
-    "romatch>=0.1.2",
-]
+baselines = ["nerfstudio>=0.3.4", "romatch>=0.1.2"]
 
 [dependency-groups]
 dev = ["vggt"]

@@ -4,13 +4,14 @@ from pathlib import Path
 
 import numpy as np
 import torch
-from nerfstudio.data.utils.colmap_parsing_utils import rotmat2qvec
 
 from sear.scripts.eval.read_colmap import (
     colmap_to_json,
     find_best_reconstruction,
+    qvec2rotmat,
     read_cameras,
     read_images,
+    rotmat2qvec,
 )
 
 
@@ -150,3 +151,64 @@ class TestReadColmap(unittest.TestCase):
 
             self.assertTrue((temp_dir / "transforms.json").exists())
             self.assertTrue((temp_dir / "sparse_pc.ply").exists())
+
+
+class TestQuaternionConversions(unittest.TestCase):
+    """
+    Tests for the vendored `qvec2rotmat` and `rotmat2qvec` functions.
+    """
+
+    def test_qvec2rotmat_identity(self) -> None:
+        """Tests that the identity quaternion maps to the identity matrix"""
+        identity = qvec2rotmat(np.array([1.0, 0.0, 0.0, 0.0]))
+        self.assertTrue(np.allclose(identity, np.eye(3)))
+
+    def test_qvec2rotmat_known_rotation(self) -> None:
+        """Tests a 90-degree rotation around the z-axis (w, x, y, z convention)"""
+        qvec = np.array([np.cos(np.pi / 4), 0.0, 0.0, np.sin(np.pi / 4)])
+        expected = np.array([[0.0, -1.0, 0.0], [1.0, 0.0, 0.0], [0.0, 0.0, 1.0]])
+        self.assertTrue(np.allclose(qvec2rotmat(qvec), expected, atol=1e-12))
+
+    def test_qvec2rotmat_produces_rotation_matrices(self) -> None:
+        """Tests that random unit quaternions map to orthonormal matrices, det 1"""
+        rng = np.random.default_rng(0)
+        for _ in range(100):
+            qvec = rng.normal(size=4)
+            qvec /= np.linalg.norm(qvec)
+            rotation = qvec2rotmat(qvec)
+            self.assertTrue(np.allclose(rotation @ rotation.T, np.eye(3), atol=1e-12))
+            self.assertAlmostEqual(float(np.linalg.det(rotation)), 1.0)
+
+    def test_rotmat2qvec_identity(self) -> None:
+        """Tests that the identity matrix maps to the identity quaternion"""
+        qvec = rotmat2qvec(np.eye(3))
+        self.assertTrue(np.allclose(qvec, np.array([1.0, 0.0, 0.0, 0.0])))
+
+    def test_rotmat2qvec_known_rotation(self) -> None:
+        """Tests a 90-degree rotation around the z-axis"""
+        rotation = np.array([[0.0, -1.0, 0.0], [1.0, 0.0, 0.0], [0.0, 0.0, 1.0]])
+        expected = np.array([np.cos(np.pi / 4), 0.0, 0.0, np.sin(np.pi / 4)])
+        self.assertTrue(np.allclose(rotmat2qvec(rotation), expected, atol=1e-12))
+
+    def test_qvec_roundtrip(self) -> None:
+        """Tests that qvec -> rotmat -> qvec returns the quaternion up to sign"""
+        rng = np.random.default_rng(1)
+        for _ in range(100):
+            qvec = rng.normal(size=4)
+            qvec /= np.linalg.norm(qvec)
+            recovered = rotmat2qvec(qvec2rotmat(qvec))
+            self.assertGreaterEqual(recovered[0], 0.0)
+            self.assertTrue(
+                np.allclose(recovered, qvec, atol=1e-12)
+                or np.allclose(recovered, -qvec, atol=1e-12)
+            )
+
+    def test_rotmat_roundtrip(self) -> None:
+        """Tests that rotmat -> qvec -> rotmat returns the same matrix"""
+        rng = np.random.default_rng(2)
+        for _ in range(100):
+            qvec = rng.normal(size=4)
+            qvec /= np.linalg.norm(qvec)
+            rotation = qvec2rotmat(qvec)
+            recovered = qvec2rotmat(rotmat2qvec(rotation))
+            self.assertTrue(np.allclose(recovered, rotation, atol=1e-12))

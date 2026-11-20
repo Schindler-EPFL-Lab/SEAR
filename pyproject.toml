@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "sear-rgbt"
-version = "1.0.1"
+version = "1.0.2"
 description = "Estimate poses of rgb and thermal cameras"
 readme = "README.md"
 requires-python = ">=3.12"

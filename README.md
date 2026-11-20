@@ -89,7 +89,7 @@ See details of the data processing in [Dataset documentation](docs/Dataset.md).
 
 ```bib
 @inproceedings{skorokhodov2026sear,
-  title={SEAR: Simple and Efficient Adaptation of Visual Geometric Transformers for Unpaired R GB-Thermal 3D Reconstruction},
+  title={SEAR: Simple and Efficient Adaptation of Visual Geometric Transformers for Unpaired RGB-Thermal 3D Reconstruction},
   author={Skorokhodov, Vsevolod and Xu, Chenghao and Sun, Shuo and Fink, Olga and Mielle, Malcolm},
   booktitle={European Conference on Computer Vision},
   pages={542--560},

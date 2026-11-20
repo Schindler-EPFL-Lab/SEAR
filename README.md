@@ -7,9 +7,9 @@ This project aims to estimate camera poses of RGB and Thermal images together.
 [![Hugging Face](https://img.shields.io/badge/Hugging_Face-SEAR-orange?logo=huggingface)](https://huggingface.co/MalcolmMielle/SEAR) | [![arXiv](https://img.shields.io/badge/arXiv-2603.18774-red?logo=arxiv)](https://arxiv.org/abs/2603.18774) | [![ECCV2026](https://img.shields.io/badge/ECCV-2026-green)](https://link.springer.com/chapter/10.1007/978-3-032-37135-5_30
 )
 
-<img src="https://raw.githubusercontent.com/Schindler-EPFL-Lab/SEAR/main/images/sink.gif" alt="sink" width="48%"> <img src="https://raw.githubusercontent.com/Schindler-EPFL-Lab/SEAR/main/images/laptop.gif" alt="laptop" width="48%">
+<img src="https://raw.githubusercontent.com/Schindler-EPFL-Lab/SEAR/main/images/sink.webp" alt="sink" width="48%"> <img src="https://raw.githubusercontent.com/Schindler-EPFL-Lab/SEAR/main/images/laptop.webp" alt="laptop" width="48%">
 
-<img src="https://raw.githubusercontent.com/Schindler-EPFL-Lab/SEAR/main/images/reflect-robot.gif" alt="reflect-robot" width="48%"> <img src="https://raw.githubusercontent.com/Schindler-EPFL-Lab/SEAR/main/images/drone-bathroom.gif" alt="drone-bathroom" width="48%">
+<img src="https://raw.githubusercontent.com/Schindler-EPFL-Lab/SEAR/main/images/reflect-robot.webp" alt="reflect-robot" width="48%"> <img src="https://raw.githubusercontent.com/Schindler-EPFL-Lab/SEAR/main/images/drone-bathroom.webp" alt="drone-bathroom" width="48%">
 
 ## Install
 
